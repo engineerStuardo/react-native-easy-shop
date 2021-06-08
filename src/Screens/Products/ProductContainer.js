@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, FlatList, ScrollView } from 'react-native';
-import { Searchbar, Icon } from 'react-native-paper';
+import { Searchbar, Icon, TextInput } from 'react-native-paper';
 import styled from 'styled-components/native';
 
 import { ProductList } from './ProductList';
+import { SearchProducts } from './SearchProducts';
 
 import data from '../../../data/products.json';
 
@@ -18,32 +19,56 @@ const InputContainer = styled.View`
 
 export const ProductContainer = () => {
   const [products, setProducts] = useState([]);
+  const [productsFiltered, setProductsFiltered] = useState([]);
   const [search, setSearch] = useState('');
+  const [showList, setShowList] = useState(true);
+  const searchRef = useRef();
 
   useEffect(() => {
     setProducts(data);
+    setProductsFiltered(data);
   }, []);
 
   return (
     <View>
       <InputContainer>
-        <Searchbar
-          placeholder='Search'
+        <TextInput
+          label='Search'
+          mode='outlined'
           value={search}
-          onSubmitEditing={() => null}
+          ref={searchRef}
+          onFocus={() => setShowList(false)}
           onChangeText={text => setSearch(text)}
+          right={
+            <TextInput.Icon
+              name={!showList && 'alpha-x-box'}
+              color={'gray'}
+              size={28}
+              onPress={() => {
+                searchRef.current.blur();
+                setShowList(true);
+                setSearch('');
+              }}
+            />
+          }
         />
       </InputContainer>
       <ScrollView>
-        <ListContainer>
-          <Text>Product Container</Text>
-          <FlatList
-            numColumns={2}
-            data={products}
-            renderItem={item => <ProductList key={item.name} product={item} />}
-            keyExtractor={item => item.name}
-          />
-        </ListContainer>
+        {showList ? (
+          <ListContainer>
+            <Text>Product Container</Text>
+            <FlatList
+              numColumns={2}
+              data={products}
+              renderItem={item => (
+                <ProductList key={item.name} product={item} />
+              )}
+              keyExtractor={item => item.name}
+            />
+          </ListContainer>
+        ) : (
+          <SearchProducts productsFiltered={productsFiltered} />
+        )}
       </ScrollView>
     </View>
   );
