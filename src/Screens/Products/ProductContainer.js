@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ActivityIndicator,
-  FlatList,
-} from 'react-native';
-
-import data from '../../../data/products.json';
-// const data = require('../../../data/products.json');
+import { View, FlatList } from 'react-native';
+import styled from 'styled-components/native';
 
 import { ProductList } from './ProductList';
+
+import data from '../../../data/products.json';
+
+const ListContainer = styled.View`
+  background-color: gainsboro;
+`;
 
 export const ProductContainer = () => {
   const [products, setProducts] = useState([]);
@@ -20,18 +18,13 @@ export const ProductContainer = () => {
   }, []);
 
   return (
-    <View>
-      <Text>Product container</Text>
-      <View style={{ marginTop: 100 }}>
-        <FlatList
-          horizontal
-          data={products}
-          renderItem={({ item }) => (
-            <ProductList key={item.name} product={item} />
-          )}
-          keyExtractor={item => item.name}
-        />
-      </View>
-    </View>
+    <ListContainer>
+      <FlatList
+        numColumns={2}
+        data={products}
+        renderItem={item => <ProductList key={item.name} product={item} />}
+        keyExtractor={item => item.name}
+      />
+    </ListContainer>
   );
 };
