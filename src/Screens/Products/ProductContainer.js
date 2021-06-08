@@ -8,6 +8,9 @@ import {
 } from 'react-native';
 
 import data from '../../../data/products.json';
+// const data = require('../../../data/products.json');
+
+import { ProductList } from './ProductList';
 
 export const ProductContainer = () => {
   const [products, setProducts] = useState([]);
@@ -23,7 +26,9 @@ export const ProductContainer = () => {
         <FlatList
           horizontal
           data={products}
-          renderItem={({ item }) => <Text>{item.brand}</Text>}
+          renderItem={({ item }) => (
+            <ProductList key={item.name} product={item} />
+          )}
           keyExtractor={item => item.name}
         />
       </View>
