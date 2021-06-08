@@ -10,6 +10,10 @@ const CardContainer = styled.View`
   margin-right: 2px;
 `;
 
+const CardStyling = styled(Card)`
+  border-radius: 10px;
+`;
+
 const CardCover = styled(Card.Cover)`
   background: white;
 `;
@@ -43,7 +47,7 @@ const ButtonContainer = styled.View`
 export const ProductCard = ({ item: { name, price, image, countInStock } }) => {
   return (
     <CardContainer>
-      <Card>
+      <CardStyling>
         <CardCover
           resizeMode='contain'
           source={{
@@ -73,7 +77,7 @@ export const ProductCard = ({ item: { name, price, image, countInStock } }) => {
         ) : (
           <Text>Currently Unavailable</Text>
         )}
-      </Card>
+      </CardStyling>
     </CardContainer>
   );
 };

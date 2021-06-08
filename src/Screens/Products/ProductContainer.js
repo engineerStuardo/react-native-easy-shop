@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 import styled from 'styled-components/native';
 
 import { ProductList } from './ProductList';
@@ -19,6 +19,7 @@ export const ProductContainer = () => {
 
   return (
     <ListContainer>
+      <Text>Product Container</Text>
       <FlatList
         numColumns={2}
         data={products}
