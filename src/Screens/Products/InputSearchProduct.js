@@ -40,7 +40,7 @@ export const InputSearchProduct = ({
         }
         right={
           <TextInput.Icon
-            name={!showProductCart && 'alpha-x-box'}
+            name={!showProductCart && 'backspace'}
             color={'gray'}
             size={28}
             onPress={() => {

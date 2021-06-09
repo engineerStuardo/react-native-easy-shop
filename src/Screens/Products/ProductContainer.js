@@ -8,6 +8,7 @@ import { SearchProducts } from './SearchProducts';
 import { ProductNotFound } from './ProductNotFound';
 
 import data from '../../../data/products.json';
+import categoriesJson from '../../../data/categories.json';
 
 const ProductView = styled(View)`
   flex: 1;
@@ -18,11 +19,16 @@ export const ProductContainer = () => {
   const [productsFiltered, setProductsFiltered] = useState([]);
   const [search, setSearch] = useState('');
   const [showProductCart, setShowProductCart] = useState(true);
+  const [categories, setCategories] = useState([]);
+  const [initialState, setInitialState] = useState([]);
+  const [productsCtg, setProductsCtg] = useState([]);
   const searchRef = useRef();
 
   useEffect(() => {
     setProducts(data);
     setProductsFiltered(data);
+    setCategories(categoriesJson);
+    setInitialState(data);
   }, []);
 
   const searchProduct = (text = '') => {
@@ -37,6 +43,10 @@ export const ProductContainer = () => {
     searchProduct();
   }, [showProductCart]);
 
+  const changeCtg = ctg => {
+    console.log('helloooooooooooooo');
+  };
+
   return (
     <ProductView>
       <InputSearchProduct
@@ -49,7 +59,12 @@ export const ProductContainer = () => {
       />
       <ScrollView>
         {showProductCart ? (
-          <CartProductList products={products} />
+          <CartProductList
+            products={products}
+            categories={categories}
+            changeCtg={changeCtg}
+            productsCtg={productsCtg}
+          />
         ) : productsFiltered.length > 0 ? (
           <SearchProducts productsFiltered={productsFiltered} />
         ) : (
