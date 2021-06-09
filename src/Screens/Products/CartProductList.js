@@ -3,6 +3,7 @@ import { Text, FlatList } from 'react-native';
 import styled from 'styled-components/native';
 
 import { ProductList } from './ProductList';
+import { Banner } from '../../Shared/Banner';
 
 const ListContainer = styled.View`
   background-color: gainsboro;
@@ -12,7 +13,7 @@ const ListContainer = styled.View`
 export const CartProductList = ({ products }) => {
   return (
     <ListContainer>
-      <Text>Product Container</Text>
+      <Banner />
       <FlatList
         numColumns={2}
         data={products}
