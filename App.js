@@ -1,14 +1,14 @@
 import React from 'react';
-import { View } from 'react-native';
 
+import { SafeArea } from './src/Utility/safe-area-component';
 import { ProductContainer } from './src/Screens/Products/ProductContainer';
 import { Header } from './src/Shared/Header';
 
 export default function App() {
   return (
-    <View>
+    <SafeArea>
       <Header />
       <ProductContainer />
-    </View>
+    </SafeArea>
   );
 }

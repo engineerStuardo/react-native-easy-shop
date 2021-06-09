@@ -4,7 +4,7 @@ import { Avatar } from 'react-native-paper';
 import styled from 'styled-components/native';
 
 const ImageContainer = styled.SafeAreaView`
-  margin-top: 30px;
+  margin-top: 20px;
   margin-bottom: 10px;
   align-self: center;
   justify-content: center;

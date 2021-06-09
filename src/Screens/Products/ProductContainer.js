@@ -1,20 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, FlatList, ScrollView } from 'react-native';
-import { Searchbar, Icon, TextInput } from 'react-native-paper';
+import { View, ScrollView } from 'react-native';
 import styled from 'styled-components/native';
 
-import { ProductList } from './ProductList';
+import { InputSearchProduct } from './InputSearchProduct';
+import { CartProductList } from './CartProductList';
 import { SearchProducts } from './SearchProducts';
 
 import data from '../../../data/products.json';
 
-const ListContainer = styled.View`
-  background-color: gainsboro;
-`;
-
-const InputContainer = styled.View`
-  padding: 10px;
-  background-color: #f7f7f3;
+const ProductView = styled(View)`
+  flex: 1;
 `;
 
 export const ProductContainer = () => {
@@ -30,46 +25,21 @@ export const ProductContainer = () => {
   }, []);
 
   return (
-    <View>
-      <InputContainer>
-        <TextInput
-          label='Search'
-          mode='outlined'
-          value={search}
-          ref={searchRef}
-          onFocus={() => setShowList(false)}
-          onChangeText={text => setSearch(text)}
-          right={
-            <TextInput.Icon
-              name={!showList && 'alpha-x-box'}
-              color={'gray'}
-              size={28}
-              onPress={() => {
-                searchRef.current.blur();
-                setShowList(true);
-                setSearch('');
-              }}
-            />
-          }
-        />
-      </InputContainer>
+    <ProductView>
+      <InputSearchProduct
+        search={search}
+        setSearch={setSearch}
+        searchRef={searchRef}
+        setShowList={setShowList}
+        showList={showList}
+      />
       <ScrollView>
         {showList ? (
-          <ListContainer>
-            <Text>Product Container</Text>
-            <FlatList
-              numColumns={2}
-              data={products}
-              renderItem={item => (
-                <ProductList key={item.name} product={item} />
-              )}
-              keyExtractor={item => item.name}
-            />
-          </ListContainer>
+          <CartProductList products={products} />
         ) : (
           <SearchProducts productsFiltered={productsFiltered} />
         )}
       </ScrollView>
-    </View>
+    </ProductView>
   );
 };
