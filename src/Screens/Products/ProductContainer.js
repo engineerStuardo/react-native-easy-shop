@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, Text } from 'react-native';
 import styled from 'styled-components/native';
 
 import { InputSearchProduct } from './InputSearchProduct';
 import { CartProductList } from './CartProductList';
 import { SearchProducts } from './SearchProducts';
+import { ProductNotFound } from './ProductNotFound';
 
 import data from '../../../data/products.json';
 
@@ -49,8 +50,10 @@ export const ProductContainer = () => {
       <ScrollView>
         {showProductCart ? (
           <CartProductList products={products} />
-        ) : (
+        ) : productsFiltered.length > 0 ? (
           <SearchProducts productsFiltered={productsFiltered} />
+        ) : (
+          <ProductNotFound />
         )}
       </ScrollView>
     </ProductView>
