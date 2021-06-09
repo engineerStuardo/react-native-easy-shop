@@ -7,47 +7,26 @@ const ListItemContainer = styled.View`
 `;
 
 export const SearchProducts = ({ productsFiltered }) => {
-  console.log(productsFiltered);
   return (
     <ListItemContainer>
       {productsFiltered.map(item => (
         <List.Item
-          title='First Item'
-          description='Item description'
+          key={item.name}
+          title={item.name}
+          description={item.description}
           left={() => (
             <Avatar.Image
+              resizeMode='cover'
               size={100}
               source={{
-                uri: 'https://www.seekpng.com/png/detail/10-103475_witch-png-transparent-image-infinity-war-scarlet-witch.png',
+                uri: item.image
+                  ? item.image
+                  : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyTCWc8MMglc2fQjamLEgQK6BGTAituuBvAQ&usqp=CAU',
               }}
             />
           )}
         />
       ))}
-      <List.Item
-        title='First Item'
-        description='Item description'
-        left={() => (
-          <Avatar.Image
-            size={100}
-            source={{
-              uri: 'https://www.seekpng.com/png/detail/10-103475_witch-png-transparent-image-infinity-war-scarlet-witch.png',
-            }}
-          />
-        )}
-      />
-      <List.Item
-        title='ULTIMOOO Item'
-        description='Item description'
-        left={() => (
-          <Avatar.Image
-            size={100}
-            source={{
-              uri: 'https://www.seekpng.com/png/detail/10-103475_witch-png-transparent-image-infinity-war-scarlet-witch.png',
-            }}
-          />
-        )}
-      />
     </ListItemContainer>
   );
 };
