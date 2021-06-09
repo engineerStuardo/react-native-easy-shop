@@ -11,7 +11,6 @@ export const SearchProducts = ({ productsFiltered }) => {
     <ListItemContainer>
       {productsFiltered.map(item => (
         <List.Item
-          key={item.name}
           title={item.name}
           description={item.description}
           left={() => (

@@ -13,6 +13,7 @@ export const InputSearchProduct = ({
   searchRef,
   showProductCart,
   setShowProductCart,
+  searchProduct,
 }) => {
   const [blur, setBlur] = useState(false);
 
@@ -30,7 +31,13 @@ export const InputSearchProduct = ({
             setBlur(false);
           }
         }}
-        onChangeText={text => setSearch(text)}
+        onChangeText={text => {
+          setSearch(text);
+          searchProduct(text);
+        }}
+        left={
+          showProductCart && <TextInput.Icon name='magnify' color={'gray'} />
+        }
         right={
           <TextInput.Icon
             name={!showProductCart && 'alpha-x-box'}

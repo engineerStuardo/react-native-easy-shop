@@ -24,6 +24,17 @@ export const ProductContainer = () => {
     setProductsFiltered(data);
   }, []);
 
+  const searchProduct = (text = '') => {
+    setProductsFiltered(
+      products.filter(item =>
+        item.name.toLowerCase().includes(text.toLowerCase())
+      )
+    );
+  };
+
+  useEffect(() => {
+    searchProduct();
+  }, [showProductCart]);
 
   return (
     <ProductView>
@@ -33,6 +44,7 @@ export const ProductContainer = () => {
         searchRef={searchRef}
         setShowProductCart={setShowProductCart}
         showProductCart={showProductCart}
+        searchProduct={searchProduct}
       />
       <ScrollView>
         {showProductCart ? (
