@@ -16,7 +16,7 @@ export const ProductContainer = () => {
   const [products, setProducts] = useState([]);
   const [productsFiltered, setProductsFiltered] = useState([]);
   const [search, setSearch] = useState('');
-  const [showList, setShowList] = useState(true);
+  const [showProductCart, setShowProductCart] = useState(true);
   const searchRef = useRef();
 
   useEffect(() => {
@@ -24,17 +24,18 @@ export const ProductContainer = () => {
     setProductsFiltered(data);
   }, []);
 
+
   return (
     <ProductView>
       <InputSearchProduct
         search={search}
         setSearch={setSearch}
         searchRef={searchRef}
-        setShowList={setShowList}
-        showList={showList}
+        setShowProductCart={setShowProductCart}
+        showProductCart={showProductCart}
       />
       <ScrollView>
-        {showList ? (
+        {showProductCart ? (
           <CartProductList products={products} />
         ) : (
           <SearchProducts productsFiltered={productsFiltered} />

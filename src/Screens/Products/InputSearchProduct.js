@@ -11,9 +11,11 @@ export const InputSearchProduct = ({
   search,
   setSearch,
   searchRef,
-  setShowList,
-  showList,
+  showProductCart,
+  setShowProductCart,
 }) => {
+  const [blur, setBlur] = useState(false);
+
   return (
     <InputContainer>
       <TextInput
@@ -21,17 +23,23 @@ export const InputSearchProduct = ({
         mode='outlined'
         value={search}
         ref={searchRef}
-        onFocus={() => setShowList(false)}
+        onFocus={() => setShowProductCart(false)}
+        onBlur={() => {
+          if (blur) {
+            setShowProductCart(true);
+            setBlur(false);
+          }
+        }}
         onChangeText={text => setSearch(text)}
         right={
           <TextInput.Icon
-            name={!showList && 'alpha-x-box'}
+            name={!showProductCart && 'alpha-x-box'}
             color={'gray'}
             size={28}
             onPress={() => {
-              searchRef.current.blur();
-              setShowList(true);
               setSearch('');
+              setBlur(true);
+              searchRef.current.blur();
             }}
           />
         }
