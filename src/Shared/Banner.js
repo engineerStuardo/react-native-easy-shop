@@ -6,17 +6,23 @@ import styled from 'styled-components/native';
 import { banner } from '../../data/banner';
 
 const BannerContainer = styled.View`
-  justify-content: center;
+  flex: 1;
+  width: 100%;
   align-items: center;
+  justify-content: center;
+  align-self: center;
 `;
 const BannerInnerContainer = styled.View`
   height: 200px;
-  margin-top: 30px;
+  width: 100%;
+  margin-top: 10px;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
 `;
 const BannerImage = styled.Image`
   height: 100%;
-  margin-right: 20px;
-  margin-left: 20px;
+  width: 100%;
 `;
 
 export const Banner = () => {
