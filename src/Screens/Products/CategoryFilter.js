@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, ScrollView, Text } from 'react-native';
 import { Chip } from 'react-native-paper';
 import styled from 'styled-components/native';
@@ -15,6 +15,10 @@ const ChipContainer = styled.View`
 
 export const CategoryFilter = ({ categoriesJson, changeCtg }) => {
   const [isSelected, setIsSelected] = useState(0);
+
+  useEffect(() => {
+    changeCtg();
+  }, []);
 
   return (
     <ScrollView

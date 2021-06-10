@@ -42,7 +42,7 @@ export const ProductContainer = () => {
     searchProduct();
   }, [showProductCart]);
 
-  const changeCtg = (ctg, index) => {
+  const changeCtg = (ctg, index = 0) => {
     index === 0
       ? setProductsCtg(products)
       : setProductsCtg(
