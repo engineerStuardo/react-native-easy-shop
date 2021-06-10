@@ -60,7 +60,7 @@ export const ProductContainer = () => {
         showProductCart={showProductCart}
         searchProduct={searchProduct}
       />
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps='handled'>
         {showProductCart ? (
           <CartProductList
             products={productsCtg}

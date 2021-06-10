@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
 import { Button, Card } from 'react-native-paper';
 import styled from 'styled-components/native';
+import { useNavigation } from '@react-navigation/native';
 
 const CardContainer = styled.View`
   width: 45%;
@@ -44,40 +45,47 @@ const ButtonContainer = styled.View`
   margin-bottom: 30px;
 `;
 
-export const ProductCard = ({ item: { name, price, image, countInStock } }) => {
+export const ProductCard = ({ item }) => {
+  const { name, price, image, countInStock } = item;
+  const navigation = useNavigation();
+
   return (
     <CardContainer>
-      <CardStyling>
-        <CardCover
-          resizeMode='contain'
-          source={{
-            uri: image
-              ? image
-              : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyTCWc8MMglc2fQjamLEgQK6BGTAituuBvAQ&usqp=CAU',
-          }}
-        />
-        <CardContent>
-          <Title>
-            {name.length > 15 ? `${name.substring(0, 15 - 3)}...` : name}
-          </Title>
-          <Price>${price}</Price>
-        </CardContent>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('SingleProduct', { product: item })}
+      >
+        <CardStyling>
+          <CardCover
+            resizeMode='contain'
+            source={{
+              uri: image
+                ? image
+                : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyTCWc8MMglc2fQjamLEgQK6BGTAituuBvAQ&usqp=CAU',
+            }}
+          />
+          <CardContent>
+            <Title>
+              {name.length > 15 ? `${name.substring(0, 15 - 3)}...` : name}
+            </Title>
+            <Price>${price}</Price>
+          </CardContent>
 
-        {countInStock > 0 ? (
-          <ButtonContainer>
-            <Button
-              icon='cart-plus'
-              mode='contained'
-              color='green'
-              onPress={() => console.log('Pressed')}
-            >
-              Add
-            </Button>
-          </ButtonContainer>
-        ) : (
-          <Text>Currently Unavailable</Text>
-        )}
-      </CardStyling>
+          {countInStock > 0 ? (
+            <ButtonContainer>
+              <Button
+                icon='cart-plus'
+                mode='contained'
+                color='green'
+                onPress={() => console.log('Pressed')}
+              >
+                Add
+              </Button>
+            </ButtonContainer>
+          ) : (
+            <Text>Currently Unavailable</Text>
+          )}
+        </CardStyling>
+      </TouchableOpacity>
     </CardContainer>
   );
 };
