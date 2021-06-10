@@ -8,13 +8,18 @@ import { CategoryFilter } from './CategoryFilter';
 import { ProductNotFound } from './ProductNotFound';
 
 const ListContainer = styled.View`
-  background-color: gainsboro;
+  background-color: ${({ length }) => (length > 0 ? 'gainsboro' : 'white')};
   padding-bottom: 30px;
+`;
+
+const ProductNotFoundView = styled.View`
+  flex: 1;
+  height: 100%;
 `;
 
 export const CartProductList = ({ products, categories, changeCtg }) => {
   return (
-    <ListContainer>
+    <ListContainer length={products.length}>
       <Banner />
       <CategoryFilter categoriesJson={categories} changeCtg={changeCtg} />
       {products.length > 0 ? (
@@ -25,7 +30,9 @@ export const CartProductList = ({ products, categories, changeCtg }) => {
           keyExtractor={item => item.name}
         />
       ) : (
-        <ProductNotFound />
+        <ProductNotFoundView>
+          <ProductNotFound />
+        </ProductNotFoundView>
       )}
     </ListContainer>
   );
