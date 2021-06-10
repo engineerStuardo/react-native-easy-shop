@@ -22,7 +22,7 @@ export const createScreenOptions = ({ route }) => ({
 });
 
 export const tabBarColors = () => ({
-  activeTintColor: 'red',
-  inactiveTintColor: 'yellow',
+  activeTintColor: '#Dd9d09',
+  inactiveTintColor: '#979183',
   showLabel: false,
 });

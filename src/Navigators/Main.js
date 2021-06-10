@@ -15,9 +15,9 @@ export const Main = () => {
       initialRouteName='Home'
     >
       <Tab.Screen name='Home' component={HomeNavigator} />
-      {/* <Tab.Screen name='Cart' component={} />
-      <Tab.Screen name='Admin' component={} />
-      <Tab.Screen name='User' component={} /> */}
+      <Tab.Screen name='Cart' component={HomeNavigator} />
+      <Tab.Screen name='Admin' component={HomeNavigator} />
+      <Tab.Screen name='User' component={HomeNavigator} />
     </Tab.Navigator>
   );
 };
