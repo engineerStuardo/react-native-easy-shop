@@ -7,6 +7,11 @@ const InputContainer = styled.View`
   background-color: #f7f7f3;
 `;
 
+const InputText = styled(TextInput)`
+  height: 40px;
+  width: 100%;
+`;
+
 export const InputSearchProduct = ({
   search,
   setSearch,
@@ -19,7 +24,7 @@ export const InputSearchProduct = ({
 
   return (
     <InputContainer>
-      <TextInput
+      <InputText
         label='Search'
         mode='outlined'
         value={search}
@@ -36,11 +41,18 @@ export const InputSearchProduct = ({
           searchProduct(text);
         }}
         left={
-          showProductCart && <TextInput.Icon name='magnify' color={'gray'} />
+          showProductCart && (
+            <TextInput.Icon
+              style={{ marginTop: 15 }}
+              name='magnify'
+              color={'gray'}
+            />
+          )
         }
         right={
           <TextInput.Icon
             name={!showProductCart && 'backspace'}
+            style={{ marginTop: 12 }}
             color={'gray'}
             size={28}
             onPress={() => {

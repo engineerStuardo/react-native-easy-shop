@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, ScrollView, Text } from 'react-native';
 import { Chip } from 'react-native-paper';
+import styled from 'styled-components/native';
 
-export const CategoryFilter = ({ categoriesJson, changeCtg, productsCtg }) => {
+const CustomChip = styled(Chip)`
+  background-color: #ffaa00;
+`;
+
+export const CategoryFilter = ({ categoriesJson, changeCtg }) => {
   const [isSelected, setIsSelected] = useState(0);
 
   return (
@@ -13,16 +18,17 @@ export const CategoryFilter = ({ categoriesJson, changeCtg, productsCtg }) => {
     >
       {categoriesJson.map((item, index) => (
         <TouchableOpacity key={item._id} style={{ marginRight: 10 }}>
-          <Chip
+          <CustomChip
             selected={isSelected === index ? true : false}
+            selectedColor={isSelected === index ? 'white' : null}
             icon={item.icon}
             onPress={() => {
               setIsSelected(index);
-              changeCtg(item._id);
+              changeCtg(item._id, index);
             }}
           >
             {item.name}
-          </Chip>
+          </CustomChip>
         </TouchableOpacity>
       ))}
     </ScrollView>

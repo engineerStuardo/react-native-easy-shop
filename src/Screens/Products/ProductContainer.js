@@ -20,7 +20,6 @@ export const ProductContainer = () => {
   const [search, setSearch] = useState('');
   const [showProductCart, setShowProductCart] = useState(true);
   const [categories, setCategories] = useState([]);
-  const [initialState, setInitialState] = useState([]);
   const [productsCtg, setProductsCtg] = useState([]);
   const searchRef = useRef();
 
@@ -28,7 +27,7 @@ export const ProductContainer = () => {
     setProducts(data);
     setProductsFiltered(data);
     setCategories(categoriesJson);
-    setInitialState(data);
+    setProductsCtg(data);
   }, []);
 
   const searchProduct = (text = '') => {
@@ -43,8 +42,12 @@ export const ProductContainer = () => {
     searchProduct();
   }, [showProductCart]);
 
-  const changeCtg = ctg => {
-    console.log('helloooooooooooooo');
+  const changeCtg = (ctg, index) => {
+    index === 0
+      ? setProductsCtg(products)
+      : setProductsCtg(
+          products.filter(item => item.category.$oid === ctg.$oid)
+        );
   };
 
   return (
@@ -60,10 +63,9 @@ export const ProductContainer = () => {
       <ScrollView>
         {showProductCart ? (
           <CartProductList
-            products={products}
+            products={productsCtg}
             categories={categories}
             changeCtg={changeCtg}
-            productsCtg={productsCtg}
           />
         ) : productsFiltered.length > 0 ? (
           <SearchProducts productsFiltered={productsFiltered} />
