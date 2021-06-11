@@ -1,11 +1,29 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import { List, Avatar, Divider, Button } from 'react-native-paper';
-
+import { View, Text, ScrollView } from 'react-native';
+import { Divider } from 'react-native-paper';
 import { connect } from 'react-redux';
+import styled from 'styled-components/native';
 
 import { CartItem } from './CartItem';
+import CartFooter from './CartFooter';
 import { clearCart } from '../../Redux/cart/cartActions';
+
+const ScrollViewStyle = styled.ScrollView`
+  background-color: white;
+`;
+
+const Title = styled.Text`
+  font-size: 30px;
+  align-self: center;
+  padding: 20px;
+`;
+
+const EmptyContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+`;
 
 const Cart = ({ cartItems, clearCart }) => {
   console.log(cartItems);
@@ -15,11 +33,9 @@ const Cart = ({ cartItems, clearCart }) => {
     <>
       {cartItems.length ? (
         <>
-          <ScrollView style={{ backgroundColor: 'white' }}>
+          <ScrollViewStyle>
             <View>
-              <Text style={{ fontSize: 30, alignSelf: 'center', padding: 20 }}>
-                Cart
-              </Text>
+              <Title>Cart</Title>
               <Divider />
               {cartItems.map(item => (
                 <>
@@ -28,53 +44,14 @@ const Cart = ({ cartItems, clearCart }) => {
                 </>
               ))}
             </View>
-          </ScrollView>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              backgroundColor: 'white',
-            }}
-          >
-            <Text style={{ fontSize: 20, padding: 10, color: 'orange' }}>
-              $ {total.toFixed(2)}
-            </Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                margin: 10,
-              }}
-            >
-              <Button
-                style={{ marginRight: 10 }}
-                color='#428bca'
-                mode='contained'
-                onPress={() => clearCart()}
-              >
-                Clear
-              </Button>
-              <Button
-                color='#428bca'
-                mode='contained'
-                onPress={() => console.log('Pressed')}
-              >
-                Checkout
-              </Button>
-            </View>
-          </View>
+          </ScrollViewStyle>
+          <CartFooter total={total} clearCart={clearCart} />
         </>
       ) : (
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
+        <EmptyContainer>
           <Text>Looks like your cart is empty</Text>
           <Text>Add products to your cart to get started</Text>
-        </View>
+        </EmptyContainer>
       )}
     </>
   );
