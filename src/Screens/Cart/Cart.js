@@ -1,12 +1,14 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Divider } from 'react-native-paper';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
+import { SwipeListView } from 'react-native-swipe-list-view';
+import { Ionicons } from '@expo/vector-icons';
 
 import { CartItem } from './CartItem';
 import CartFooter from './CartFooter';
-import { clearCart } from '../../Redux/cart/cartActions';
+import { clearCart, removeFromCart } from '../../Redux/cart/cartActions';
 
 const ScrollViewStyle = styled.ScrollView`
   background-color: white;
@@ -25,7 +27,22 @@ const EmptyContainer = styled.View`
   background-color: white;
 `;
 
-const Cart = ({ cartItems, clearCart }) => {
+const HiddenContainer = styled.View`
+  flex: 1;
+  justify-content: flex-end;
+  flex-direction: row;
+`;
+
+const HiddenButton = styled(TouchableOpacity)`
+  background-color: #9c9c9c;
+  justify-content: center;
+  align-items: flex-end;
+  padding-right: 25px;
+  height: 70px;
+  width: 70px;
+`;
+
+const Cart = ({ cartItems, deleteItem }) => {
   let total = 0;
   cartItems.forEach(i => (total += i.product.price));
   return (
@@ -35,13 +52,32 @@ const Cart = ({ cartItems, clearCart }) => {
           <ScrollViewStyle>
             <View>
               <Title>Cart</Title>
+              <Text style={{ alignSelf: 'center' }}>
+                (Swipe right to left to delete)
+              </Text>
               <Divider />
-              {cartItems.map(item => (
-                <>
-                  <CartItem item={item} />
-                  <Divider />
-                </>
-              ))}
+              <SwipeListView
+                data={cartItems}
+                renderItem={item => <CartItem item={item} />}
+                renderHiddenItem={data => (
+                  <HiddenContainer>
+                    <HiddenButton onPress={() => deleteItem(data.item)}>
+                      <Ionicons
+                        name='md-trash-outline'
+                        size={30}
+                        color='white'
+                      />
+                    </HiddenButton>
+                  </HiddenContainer>
+                )}
+                disableRightSwipe={true}
+                previewOpenDelay={3000}
+                friction={1000}
+                tension={40}
+                leftOpenValue={75}
+                stopLeftSwipe={75}
+                rightOpenValue={-75}
+              />
             </View>
           </ScrollViewStyle>
           <CartFooter total={total} clearCart={clearCart} />
@@ -65,6 +101,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   clearCart: () => dispatch(clearCart()),
+  deleteItem: item => dispatch(removeFromCart(item)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);
