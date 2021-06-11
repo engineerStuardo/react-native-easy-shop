@@ -1,5 +1,6 @@
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
+import CartIcon from '../Shared/CartIcon';
 
 const TAB_ICON = {
   Home: 'home-sharp',
@@ -17,6 +18,15 @@ export const createScreenOptions = ({ route }) => ({
     const iconName = focused
       ? TAB_ICON[`onFocus${route.name}`]
       : TAB_ICON[route.name];
+    if (route.name === 'Cart' || route.name === 'onFocusCart') {
+      console.log('hello');
+      return (
+        <>
+          <Ionicons name={iconName} size={size} color={color} />
+          <CartIcon />
+        </>
+      );
+    }
     return <Ionicons name={iconName} size={size} color={color} />;
   },
 });

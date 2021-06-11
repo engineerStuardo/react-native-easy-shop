@@ -38,7 +38,7 @@ const Cart = ({ cartItems, clearCart }) => {
             }}
           >
             <Text style={{ fontSize: 20, padding: 10, color: 'orange' }}>
-              $ {total}
+              $ {total.toFixed(2)}
             </Text>
             <View
               style={{
