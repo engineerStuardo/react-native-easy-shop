@@ -13,6 +13,12 @@ const ChipContainer = styled.View`
   margin-right: 20px;
 `;
 
+const ScrollViewStyle = styled.ScrollView`
+  background-color: #f2f2f2;
+  padding-top: 20px;
+  padding-bottom: 20px;
+`;
+
 export const CategoryFilter = ({ categoriesJson, changeCtg }) => {
   const [isSelected, setIsSelected] = useState(0);
 
@@ -21,11 +27,7 @@ export const CategoryFilter = ({ categoriesJson, changeCtg }) => {
   }, []);
 
   return (
-    <ScrollView
-      bounces={true}
-      horizontal={true}
-      style={{ backgroundColor: '#f2f2f2', paddingTop: 20, paddingBottom: 20 }}
-    >
+    <ScrollViewStyle>
       <ChipContainer>
         {categoriesJson.map((item, index) => (
           <TouchableOpacity key={item._id} style={{ marginRight: 10 }}>
@@ -43,6 +45,6 @@ export const CategoryFilter = ({ categoriesJson, changeCtg }) => {
           </TouchableOpacity>
         ))}
       </ChipContainer>
-    </ScrollView>
+    </ScrollViewStyle>
   );
 };
