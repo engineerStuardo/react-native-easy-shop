@@ -19,6 +19,7 @@ const CardStyling = styled(Card)`
 
 const CardCover = styled(Card.Cover)`
   background: white;
+  margin-top: 10px;
 `;
 
 const CardContent = styled(Card.Content)`
