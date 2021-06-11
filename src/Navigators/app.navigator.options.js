@@ -19,7 +19,6 @@ export const createScreenOptions = ({ route }) => ({
       ? TAB_ICON[`onFocus${route.name}`]
       : TAB_ICON[route.name];
     if (route.name === 'Cart' || route.name === 'onFocusCart') {
-      console.log('hello');
       return (
         <>
           <Ionicons name={iconName} size={size} color={color} />

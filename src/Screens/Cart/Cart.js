@@ -26,7 +26,6 @@ const EmptyContainer = styled.View`
 `;
 
 const Cart = ({ cartItems, clearCart }) => {
-  console.log(cartItems);
   let total = 0;
   cartItems.forEach(i => (total += i.product.price));
   return (
