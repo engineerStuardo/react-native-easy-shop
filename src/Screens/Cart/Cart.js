@@ -42,7 +42,7 @@ const HiddenButton = styled(TouchableOpacity)`
   width: 70px;
 `;
 
-const Cart = ({ cartItems, deleteItem }) => {
+const Cart = ({ cartItems, clearCart, deleteItem }) => {
   let total = 0;
   cartItems.forEach(i => (total += i.product.price));
   return (
