@@ -68,7 +68,7 @@ export const SingleProduct = ({ route }) => {
             style={{ width: '100%' }}
             icon='cart-plus'
             mode='contained'
-            color='green'
+            color='#5cb85c'
             onPress={() => console.log('Pressed')}
           >
             Add

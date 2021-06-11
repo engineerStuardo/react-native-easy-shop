@@ -77,7 +77,7 @@ const ProductCard = ({ item, addItemToCart }) => {
               <Button
                 icon='cart-plus'
                 mode='contained'
-                color='green'
+                color='#5cb85c'
                 onPress={() => addItemToCart(item)}
               >
                 Add
