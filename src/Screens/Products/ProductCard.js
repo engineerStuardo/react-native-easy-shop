@@ -78,6 +78,7 @@ const ProductCard = ({ item, addItemToCart }) => {
                 icon='cart-plus'
                 mode='contained'
                 color='#5cb85c'
+                labelStyle={{ color: 'white' }}
                 onPress={() => addItemToCart(item)}
               >
                 Add

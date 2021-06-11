@@ -69,6 +69,7 @@ export const SingleProduct = ({ route }) => {
             icon='cart-plus'
             mode='contained'
             color='#5cb85c'
+            labelStyle={{ color: 'white' }}
             onPress={() => console.log('Pressed')}
           >
             Add
