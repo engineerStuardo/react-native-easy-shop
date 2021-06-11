@@ -5,7 +5,8 @@ import styled from 'styled-components/native';
 
 const ImageItem = styled.Image`
   width: 100%;
-  height: 250;
+  height: 250px;
+  margin-top: 30px;
 `;
 
 const TextContainer = styled.View`
@@ -38,7 +39,7 @@ const ButtonContainer = styled.View`
   align-items: center;
   justify-content: center;
   align-self: center;
-  margin-top: 50px;
+  margin-top: 15px;
 `;
 
 export const SingleProduct = ({ route }) => {
@@ -46,7 +47,7 @@ export const SingleProduct = ({ route }) => {
   const [availability, setAvailability] = useState(null);
 
   return (
-    <ScrollView>
+    <>
       <View>
         <ImageItem
           source={{
@@ -76,6 +77,6 @@ export const SingleProduct = ({ route }) => {
           </Button>
         </ButtonContainer>
       </TextContainer>
-    </ScrollView>
+    </>
   );
 };
