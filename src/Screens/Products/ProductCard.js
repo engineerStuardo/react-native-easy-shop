@@ -3,6 +3,8 @@ import { TouchableOpacity, Text } from 'react-native';
 import { Button, Card } from 'react-native-paper';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
+import { connect } from 'react-redux';
+import { addToCart } from '../../Redux/cart/cartActions';
 
 const CardContainer = styled.View`
   width: 45%;
@@ -45,7 +47,7 @@ const ButtonContainer = styled.View`
   margin-bottom: 30px;
 `;
 
-export const ProductCard = ({ item }) => {
+const ProductCard = ({ item, addItemToCart }) => {
   const { name, price, image, countInStock } = item;
   const navigation = useNavigation();
 
@@ -76,7 +78,7 @@ export const ProductCard = ({ item }) => {
                 icon='cart-plus'
                 mode='contained'
                 color='green'
-                onPress={() => console.log('Pressed')}
+                onPress={() => addItemToCart(item)}
               >
                 Add
               </Button>
@@ -89,3 +91,9 @@ export const ProductCard = ({ item }) => {
     </CardContainer>
   );
 };
+
+const mapDispatchToProps = dispatch => ({
+  addItemToCart: product => dispatch(addToCart({ quantity: 1, product })),
+});
+
+export default connect(null, mapDispatchToProps)(ProductCard);

@@ -1,21 +1,15 @@
 import { CartActionTypes } from './cartTypes';
 
-export const addToCart = payload => {
-  return {
-    type: CartActionTypes.ADD_TO_CART,
-    payload,
-  };
-};
+export const addToCart = payload => ({
+  type: CartActionTypes.ADD_TO_CART,
+  payload,
+});
 
-export const removeFromCart = payload => {
-  return {
-    type: CartActionTypes.REMOVE_FROM_CART,
-    payload,
-  };
-};
+export const removeFromCart = payload => ({
+  type: CartActionTypes.REMOVE_FROM_CART,
+  payload,
+});
 
-export const clearCart = () => {
-  return {
-    type: CartActionTypes.CLEAR_CART,
-  };
-};
+export const clearCart = () => ({
+  type: CartActionTypes.CLEAR_CART,
+});

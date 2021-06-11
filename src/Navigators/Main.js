@@ -1,9 +1,9 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View } from 'react-native';
 
 import { createScreenOptions, tabBarColors } from './app.navigator.options';
 import { HomeNavigator } from './HomeNavigator';
+import { CartNavigator } from './CartNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,7 +15,7 @@ export const Main = () => {
       initialRouteName='Home'
     >
       <Tab.Screen name='Home' component={HomeNavigator} />
-      <Tab.Screen name='Cart' component={HomeNavigator} />
+      <Tab.Screen name='Cart' component={CartNavigator} />
       <Tab.Screen name='Admin' component={HomeNavigator} />
       <Tab.Screen name='User' component={HomeNavigator} />
     </Tab.Navigator>
