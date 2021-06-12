@@ -34,7 +34,7 @@ const HiddenContainer = styled.View`
 `;
 
 const HiddenButton = styled(TouchableOpacity)`
-  background-color: #9c9c9c;
+  background-color: #ff5c57;
   justify-content: center;
   align-items: flex-end;
   padding-right: 25px;
