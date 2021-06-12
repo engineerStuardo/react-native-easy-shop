@@ -24,7 +24,13 @@ const DropdownContainer = styled(View)`
   justify-content: center;
 `;
 
-const Checkout = ({ cartItems }) => {
+const ConfirmButton = styled(Button)`
+  border-radius: 20;
+  background-color: #5cb85c;
+  padding: 5px;
+`;
+
+const Checkout = ({ cartItems, navigation }) => {
   const [orderItems, setOrderItems] = useState();
   const [address, setAddress] = useState();
   const [address2, setAddress2] = useState();
@@ -36,6 +42,20 @@ const Checkout = ({ cartItems }) => {
   useEffect(() => {
     setOrderItems(cartItems);
   }, []);
+
+  const checkout = () => {
+    const order = {
+      city,
+      country,
+      dateOrdered: Date.now(),
+      orderItems,
+      phone,
+      shippingAddress: address,
+      shippingAddress2: address2,
+      zip,
+    };
+    navigation.navigate('Payment', { order: order });
+  };
 
   return (
     <KeyboardAwareScrollView
@@ -90,6 +110,21 @@ const Checkout = ({ cartItems }) => {
             ))}
           </Picker>
         </DropdownContainer>
+        <View
+          style={{
+            width: 200,
+            alignSelf: 'center',
+            marginTop: 20,
+          }}
+        >
+          <ConfirmButton
+            icon='checkbox-marked-circle'
+            mode='contained'
+            onPress={() => checkout()}
+          >
+            Confirm
+          </ConfirmButton>
+        </View>
       </FormContainer>
     </KeyboardAwareScrollView>
   );

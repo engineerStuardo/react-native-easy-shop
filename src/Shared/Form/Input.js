@@ -1,5 +1,17 @@
 import React from 'react';
 import { View, TextInput } from 'react-native';
+import styled from 'styled-components/native';
+
+const InputText = styled(TextInput)`
+  width: 80%;
+  height: 50px;
+  background-color: white;
+  margin: 10px;
+  border-radius: 20px;
+  padding: 10px;
+  border-width: 2px;
+  border-color: orange;
+`;
 
 export const Input = ({
   placeholder,
@@ -14,17 +26,7 @@ export const Input = ({
 }) => {
   return (
     <View style={{ alignItems: 'center' }}>
-      <TextInput
-        style={{
-          width: '80%',
-          height: 50,
-          backgroundColor: 'white',
-          margin: 10,
-          borderRadius: 20,
-          padding: 10,
-          borderWidth: 2,
-          borderColor: 'orange',
-        }}
+      <InputText
         placeholder={placeholder}
         name={name}
         id={id}
