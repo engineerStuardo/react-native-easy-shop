@@ -4,11 +4,25 @@ import { Button } from 'react-native-paper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
 import { Picker } from '@react-native-picker/picker';
+import styled from 'styled-components/native';
 
 import { FormContainer } from '../../../Shared/Form/FormContainer';
 import { Input } from '../../../Shared/Form/Input';
 
 import countries from '../../../../data/countries.json';
+
+const DropdownContainer = styled(View)`
+  width: 80%;
+  height: 50px;
+  background-color: white;
+  margin: 10px;
+  padding: 10px;
+  border-width: 2px;
+  border-color: orange;
+  align-self: center;
+  border-radius: 20px;
+  justify-content: center;
+`;
 
 const Checkout = ({ cartItems }) => {
   const [orderItems, setOrderItems] = useState();
@@ -62,28 +76,20 @@ const Checkout = ({ cartItems }) => {
           keyboardType={'numeric'}
           onChangeText={text => setZip(text)}
         />
-        {/* <View
-          style={{
-            width: '80%',
-            height: 60,
-            backgroundColor: 'white',
-            margin: 10,
-            borderRadius: 20,
-            padding: 10,
-            borderWidth: 2,
-            borderColor: 'orange',
-            alignSelf: 'center',
-          }}
-        > */}
-        {/* <Picker
-          selectedValue={country}
-          onValueChange={(itemValue, itemIndex) => setCountry(itemValue)}
-        >
-          {countries.map(item => (
-            <Picker.Item key={item.code} label={item.name} value={item.name} />
-          ))}
-        </Picker> */}
-        {/* </View> */}
+        <DropdownContainer>
+          <Picker
+            selectedValue={country}
+            onValueChange={(itemValue, itemIndex) => setCountry(itemValue)}
+          >
+            {countries.map(item => (
+              <Picker.Item
+                key={item.code}
+                label={item.name}
+                value={item.name}
+              />
+            ))}
+          </Picker>
+        </DropdownContainer>
       </FormContainer>
     </KeyboardAwareScrollView>
   );

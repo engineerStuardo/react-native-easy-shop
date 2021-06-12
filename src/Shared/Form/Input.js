@@ -17,7 +17,7 @@ export const Input = ({
       <TextInput
         style={{
           width: '80%',
-          height: 60,
+          height: 50,
           backgroundColor: 'white',
           margin: 10,
           borderRadius: 20,
