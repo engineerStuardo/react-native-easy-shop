@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { List, Avatar } from 'react-native-paper';
+import { List, Avatar, Divider } from 'react-native-paper';
 
 export const CartItem = ({
   item: {
@@ -33,6 +33,7 @@ export const CartItem = ({
           />
         )}
       />
+      <Divider />
     </View>
   );
 };
