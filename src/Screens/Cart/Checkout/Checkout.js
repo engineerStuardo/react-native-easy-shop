@@ -24,8 +24,14 @@ const DropdownContainer = styled(View)`
   justify-content: center;
 `;
 
+const ConfirmButtonContainer = styled(View)`
+  width: 200px;
+  align-self: center;
+  margin-top: 45px;
+`;
+
 const ConfirmButton = styled(Button)`
-  border-radius: 20;
+  border-radius: 20px;
   background-color: #5cb85c;
   padding: 5px;
 `;
@@ -110,13 +116,7 @@ const Checkout = ({ cartItems, navigation }) => {
             ))}
           </Picker>
         </DropdownContainer>
-        <View
-          style={{
-            width: 200,
-            alignSelf: 'center',
-            marginTop: 20,
-          }}
-        >
+        <ConfirmButtonContainer>
           <ConfirmButton
             icon='checkbox-marked-circle'
             mode='contained'
@@ -124,7 +124,7 @@ const Checkout = ({ cartItems, navigation }) => {
           >
             Confirm
           </ConfirmButton>
-        </View>
+        </ConfirmButtonContainer>
       </FormContainer>
     </KeyboardAwareScrollView>
   );
