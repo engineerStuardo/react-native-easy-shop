@@ -60,7 +60,7 @@ const Checkout = ({ cartItems, navigation }) => {
       shippingAddress2: address2,
       zip,
     };
-    navigation.navigate('Payment', { order: order });
+    navigation.navigate('Payment', { order });
   };
 
   return (

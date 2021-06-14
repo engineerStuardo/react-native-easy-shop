@@ -37,7 +37,7 @@ const paymentCards = [
 
 export const Payment = ({ route, navigation }) => {
   const [card, setCard] = useState();
-  const [order, setOrder] = useState(route.params);
+  const [order, setOrder] = useState(route.params.order);
 
   const [checked, setChecked] = useState({
     cash: {
