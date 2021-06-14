@@ -42,7 +42,7 @@ const Checkout = ({ cartItems, navigation }) => {
   const [address2, setAddress2] = useState();
   const [city, setCity] = useState();
   const [zip, setZip] = useState();
-  const [country, setCountry] = useState();
+  const [country, setCountry] = useState(countries[0].name);
   const [phone, setPhone] = useState();
 
   useEffect(() => {

@@ -37,7 +37,6 @@ const paymentCards = [
 
 export const Payment = ({ route, navigation }) => {
   const [card, setCard] = useState();
-  const [order, setOrder] = useState(route.params.order);
 
   const [checked, setChecked] = useState({
     cash: {
@@ -121,7 +120,10 @@ export const Payment = ({ route, navigation }) => {
           <ConfirmButton
             icon='checkbox-marked-circle'
             mode='contained'
-            onPress={() => navigation.navigate('Confirm', { order })}
+            disabled={route.params ? false : true}
+            onPress={() =>
+              navigation.navigate('Confirm', { order: route.params })
+            }
           >
             Confirm
           </ConfirmButton>

@@ -13,7 +13,11 @@ const ImageContainer = styled.SafeAreaView`
 
 export const Header = () => (
   <ImageContainer>
-    <Avatar.Image size={55} source={require('../../assets/Logo.png')} />
+    <Avatar.Image
+      style={{ backgroundColor: 'orange' }}
+      size={55}
+      source={require('../../assets/Logo.png')}
+    />
     <Text>Easy Shop</Text>
   </ImageContainer>
 );

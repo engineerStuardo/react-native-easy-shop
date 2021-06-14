@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 
 export const Confirm = ({ route }) => {
-  // const [confirm, setConfirm] = useState(route.params.order);
-
-  console.log(route.params);
+  const confirm = route.params;
 
   return (
     <>
@@ -13,34 +11,42 @@ export const Confirm = ({ route }) => {
           Confirm Order
         </Text>
       </View>
-      <View style={{ flex: 1, backgroundColor: 'white', alignItems: 'center' }}>
+      {confirm ? (
         <View
-          style={{
-            width: 280,
-            borderWidth: 1,
-            borderColor: 'orange',
-            marginTop: 25,
-            borderRadius: 20,
-            padding: 20,
-          }}
+          style={{ flex: 1, backgroundColor: 'white', alignItems: 'center' }}
         >
-          <Text
+          <View
             style={{
-              fontSize: 15,
-              fontWeight: 'bold',
-              margin: 15,
-              alignSelf: 'center',
+              width: 280,
+              borderWidth: 1,
+              borderColor: 'orange',
+              marginTop: 25,
+              borderRadius: 20,
+              padding: 20,
             }}
           >
-            Shipping to:{' '}
-          </Text>
-          <Text>Address:{}</Text>
-          <Text>Address2:</Text>
-          <Text>City:</Text>
-          <Text>Zip Code:</Text>
-          <Text>Country:</Text>
+            <Text
+              style={{
+                fontSize: 15,
+                fontWeight: 'bold',
+                margin: 15,
+                alignSelf: 'center',
+              }}
+            >
+              Shipping to:{' '}
+            </Text>
+            <Text>Address: {confirm.order.order.shippingAddress}</Text>
+            <Text>Address2: {confirm.order.order.shippingAddress2}</Text>
+            <Text>City: {confirm.order.order.city}</Text>
+            <Text>Zip Code: {confirm.order.order.zip}</Text>
+            <Text>Country: {confirm.order.order.country}</Text>
+          </View>
         </View>
-      </View>
+      ) : (
+        <View style={{ alignSelf: 'center' }}>
+          <Text>You need to confirm Shipping and Payment</Text>
+        </View>
+      )}
     </>
   );
 };
