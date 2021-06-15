@@ -3,7 +3,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 import Checkout from '../Screens/Cart/Checkout/Checkout';
 import { Payment } from '../Screens/Cart/Checkout/Payment';
-import { Confirm } from '../Screens/Cart/Checkout/Confirm';
+import Confirm from '../Screens/Cart/Checkout/Confirm';
 
 const Tab = createMaterialTopTabNavigator();
 
