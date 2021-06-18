@@ -40,6 +40,7 @@ const ButtonContainer = styled.View`
   justify-content: center;
   align-self: center;
   margin-top: 15px;
+  margin-bottom: 75px;
 `;
 
 export const SingleProduct = ({ route }) => {
@@ -47,7 +48,7 @@ export const SingleProduct = ({ route }) => {
   const [availability, setAvailability] = useState(null);
 
   return (
-    <>
+    <ScrollView>
       <View>
         <ImageItem
           source={{
@@ -77,6 +78,6 @@ export const SingleProduct = ({ route }) => {
           </Button>
         </ButtonContainer>
       </TextContainer>
-    </>
+    </ScrollView>
   );
 };

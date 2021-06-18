@@ -23,16 +23,24 @@ export const ProductContainer = () => {
   const searchRef = useRef();
 
   const requestProductsAPI = async () => {
-    const res = await axios.get(`${baseURL}products`);
-    setProducts(res.data);
-    setProductsFiltered(res.data);
-    setProductsCtg(res.data);
+    try {
+      const res = await axios.get(`${baseURL}products`);
+      setProducts(res.data);
+      setProductsFiltered(res.data);
+      setProductsCtg(res.data);
+    } catch (error) {
+      console.log(`Api call error: ${error}`);
+    }
   };
 
   const requestCategoriesAPI = async () => {
-    const res = await axios.get(`${baseURL}categories`);
-    const result = res.data.sort((a, b) => a.name.localeCompare(b.name));
-    setCategories(result);
+    try {
+      const res = await axios.get(`${baseURL}categories`);
+      const result = res.data.sort((a, b) => a.name.localeCompare(b.name));
+      setCategories(result);
+    } catch (error) {
+      console.log(`Api call error: ${error}`);
+    }
   };
 
   useEffect(() => {
