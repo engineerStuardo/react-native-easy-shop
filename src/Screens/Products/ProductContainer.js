@@ -24,14 +24,16 @@ export const ProductContainer = () => {
   const [productsCtg, setProductsCtg] = useState([]);
   const searchRef = useRef();
 
+  const requestProductsAPI = async () => {
+    const res = await axios.get(`${baseURL}products`);
+    setProducts(res.data);
+    setProductsFiltered(res.data);
+    setProductsCtg(res.data);
+  };
+
   useEffect(() => {
     setCategories(categoriesJson);
-
-    axios.get(`${baseURL}products`).then(res => {
-      setProducts(res.data);
-      setProductsFiltered(res.data);
-      setProductsCtg(res.data);
-    });
+    requestProductsAPI();
   }, []);
 
   const searchProduct = (text = '') => {
