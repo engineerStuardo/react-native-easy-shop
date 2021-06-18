@@ -9,8 +9,6 @@ import { SearchProducts } from './SearchProducts';
 import { ProductNotFound } from './ProductNotFound';
 import baseURL from '../../../assets/common/baseUrl';
 
-import categoriesJson from '../../../data/categories.json';
-
 const ProductView = styled(View)`
   flex: 1;
 `;
@@ -31,8 +29,14 @@ export const ProductContainer = () => {
     setProductsCtg(res.data);
   };
 
+  const requestCategoriesAPI = async () => {
+    const res = await axios.get(`${baseURL}categories`);
+    const result = res.data.sort((a, b) => a.name.localeCompare(b.name));
+    setCategories(result);
+  };
+
   useEffect(() => {
-    setCategories(categoriesJson);
+    requestCategoriesAPI();
     requestProductsAPI();
   }, []);
 
@@ -51,9 +55,7 @@ export const ProductContainer = () => {
   const changeCtg = (ctg, index = 0) => {
     index === 0
       ? setProductsCtg(products)
-      : setProductsCtg(
-          products.filter(item => item.category.$oid === ctg.$oid)
-        );
+      : setProductsCtg(products.filter(item => item.category._id === ctg));
   };
 
   return (
