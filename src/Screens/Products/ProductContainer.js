@@ -3,6 +3,7 @@ import { View, ScrollView, Text } from 'react-native';
 import styled from 'styled-components/native';
 import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
+import { ActivityIndicator, Colors } from 'react-native-paper';
 
 import { InputSearchProduct } from './InputSearchProduct';
 import { CartProductList } from './CartProductList';
@@ -14,6 +15,11 @@ const ProductView = styled(View)`
   flex: 1;
 `;
 
+const ActivityIndicatorContainer = styled(View)`
+  flex: 1;
+  justify-content: center;
+`;
+
 export const ProductContainer = () => {
   const [products, setProducts] = useState([]);
   const [productsFiltered, setProductsFiltered] = useState([]);
@@ -21,6 +27,7 @@ export const ProductContainer = () => {
   const [showProductCart, setShowProductCart] = useState(true);
   const [categories, setCategories] = useState([]);
   const [productsCtg, setProductsCtg] = useState([]);
+  const [loading, setLoading] = useState(true);
   const searchRef = useRef();
 
   const requestProductsAPI = async () => {
@@ -29,6 +36,7 @@ export const ProductContainer = () => {
       setProducts(res.data);
       setProductsFiltered(res.data);
       setProductsCtg(res.data);
+      setLoading(false);
     } catch (error) {
       console.log(`Api call error: ${error}`);
     }
@@ -70,28 +78,40 @@ export const ProductContainer = () => {
   };
 
   return (
-    <ProductView>
-      <InputSearchProduct
-        search={search}
-        setSearch={setSearch}
-        searchRef={searchRef}
-        setShowProductCart={setShowProductCart}
-        showProductCart={showProductCart}
-        searchProduct={searchProduct}
-      />
-      <ScrollView keyboardShouldPersistTaps='handled'>
-        {showProductCart ? (
-          <CartProductList
-            products={productsCtg}
-            categories={categories}
-            changeCtg={changeCtg}
+    <>
+      {loading ? (
+        <ActivityIndicatorContainer>
+          <ActivityIndicator
+            animating={true}
+            size={50}
+            color={Colors.orange800}
           />
-        ) : productsFiltered.length > 0 ? (
-          <SearchProducts productsFiltered={productsFiltered} />
-        ) : (
-          <ProductNotFound />
-        )}
-      </ScrollView>
-    </ProductView>
+        </ActivityIndicatorContainer>
+      ) : (
+        <ProductView>
+          <InputSearchProduct
+            search={search}
+            setSearch={setSearch}
+            searchRef={searchRef}
+            setShowProductCart={setShowProductCart}
+            showProductCart={showProductCart}
+            searchProduct={searchProduct}
+          />
+          <ScrollView keyboardShouldPersistTaps='handled'>
+            {showProductCart ? (
+              <CartProductList
+                products={productsCtg}
+                categories={categories}
+                changeCtg={changeCtg}
+              />
+            ) : productsFiltered.length > 0 ? (
+              <SearchProducts productsFiltered={productsFiltered} />
+            ) : (
+              <ProductNotFound />
+            )}
+          </ScrollView>
+        </ProductView>
+      )}
+    </>
   );
 };
