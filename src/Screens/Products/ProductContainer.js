@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { View, ScrollView, Text } from 'react-native';
 import styled from 'styled-components/native';
 import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { InputSearchProduct } from './InputSearchProduct';
 import { CartProductList } from './CartProductList';
@@ -43,10 +44,12 @@ export const ProductContainer = () => {
     }
   };
 
-  useEffect(() => {
-    requestCategoriesAPI();
-    requestProductsAPI();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      requestCategoriesAPI();
+      requestProductsAPI();
+    }, [])
+  );
 
   const searchProduct = (text = '') => {
     setProductsFiltered(
