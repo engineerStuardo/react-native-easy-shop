@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, ScrollView, Text } from 'react-native';
 import styled from 'styled-components/native';
+import axios from 'axios';
 
 import { InputSearchProduct } from './InputSearchProduct';
 import { CartProductList } from './CartProductList';
 import { SearchProducts } from './SearchProducts';
 import { ProductNotFound } from './ProductNotFound';
+import baseURL from '../../../assets/common/baseUrl';
 
-import data from '../../../data/products.json';
 import categoriesJson from '../../../data/categories.json';
 
 const ProductView = styled(View)`
@@ -24,10 +25,13 @@ export const ProductContainer = () => {
   const searchRef = useRef();
 
   useEffect(() => {
-    setProducts(data);
-    setProductsFiltered(data);
     setCategories(categoriesJson);
-    setProductsCtg(data);
+
+    axios.get(`${baseURL}products`).then(res => {
+      setProducts(res.data);
+      setProductsFiltered(res.data);
+      setProductsCtg(res.data);
+    });
   }, []);
 
   const searchProduct = (text = '') => {
