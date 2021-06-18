@@ -4,7 +4,7 @@ import { Chip } from 'react-native-paper';
 import styled from 'styled-components/native';
 
 const CustomChip = styled(Chip)`
-  background-color: ${props => (props.isSelected ? '#f5bb5d' : '#fe9100')};
+  background-color: ${props => (props.isSelected ? '#fe9100' : '#f5bb5d')};
 `;
 
 const ChipContainer = styled.View`
