@@ -27,8 +27,8 @@ const Register = ({ navigation }) => {
 
   const registerUser=async(user)=>{
     try {
-      const response = await axios.post(`${baseURL}users/register`,user);      
-      if(response.status==='200'){
+      const response = await axios.post(`${baseURL}users/register`,user);  
+      if(response.status===200){
         Toast.show({
           topOffset:60,
           type:'success',
@@ -37,7 +37,7 @@ const Register = ({ navigation }) => {
         })
         setTimeout(()=>{
           navigation.navigate('Login')
-        },5000)
+        },500)
       }
     } catch (error) {
       Toast.show({
