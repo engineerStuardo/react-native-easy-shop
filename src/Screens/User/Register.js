@@ -3,10 +3,13 @@ import { View, Text } from 'react-native';
 import styled from 'styled-components/native';
 import { Button } from 'react-native-paper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import axios from 'axios';
+import Toast from 'react-native-toast-message';
 
 import { FormContainer } from '../../Shared/Form/FormContainer';
 import { Input } from '../../Shared/Form/Input';
 import { Error } from '../../Shared/Error';
+import baseURL from '../../../assets/common/baseUrl';
 
 const RegisterButtonContainer = styled(View)`
   width: 80%;
@@ -22,11 +25,44 @@ const Register = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  const registerUser=async(user)=>{
+    try {
+      const response = await axios.post(`${baseURL}users/register`,user);      
+      if(response.status==='200'){
+        Toast.show({
+          topOffset:60,
+          type:'success',
+          text1:'Registration Succeeded',
+          text2:'Please login into your account'
+        })
+        setTimeout(()=>{
+          navigation.navigate('Login')
+        },5000)
+      }
+    } catch (error) {
+      Toast.show({
+        topOffset:60,
+        type:'error',
+        text1:'Something went wrong',
+        text2:'Please try again'
+      })
+    }
+  }
+
   const register = () => {
     if (email === '' || name === '' || phone === '' || password === '') {
       setError('Please fill in the form correctly');
     } else {
       setError('');
+      const user={
+        name,
+        email,
+        password,
+        phone,
+        isAdmin: false
+      }
+
+      registerUser(user);
     }
   };
 
