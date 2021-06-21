@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Image, View, Text, ScrollView } from 'react-native';
 import { Button } from 'react-native-paper';
 import styled from 'styled-components/native';
+import { connect } from 'react-redux';
+import Toast from 'react-native-toast-message';
+
+import { addToCart } from '../../Redux/cart/cartActions';
 
 const ImageItem = styled.Image`
   width: 100%;
@@ -43,7 +47,7 @@ const ButtonContainer = styled.View`
   margin-bottom: 75px;
 `;
 
-export const SingleProduct = ({ route }) => {
+const SingleProduct = ({ route,addItemToCart }) => {
   const [item, setItem] = useState(route.params.product);
   const [availability, setAvailability] = useState(null);
 
@@ -72,7 +76,15 @@ export const SingleProduct = ({ route }) => {
             mode='contained'
             color='#5cb85c'
             labelStyle={{ color: 'white' }}
-            onPress={() => console.log('Pressed')}
+            onPress={() => {
+               addItemToCart(item);
+                  Toast.show({
+                    topOffset:60,
+                    type: 'success',
+                    text1: `Added to Cart: ${item.name}`,
+                    text2: 'Go to your cart to complete order'
+                  })
+            }}
           >
             Add
           </Button>
@@ -81,3 +93,9 @@ export const SingleProduct = ({ route }) => {
     </ScrollView>
   );
 };
+
+const mapDispatchToProps = dispatch => ({
+  addItemToCart: product => dispatch(addToCart({ quantity: 1, product })),
+});
+
+export default connect(null,mapDispatchToProps)(SingleProduct);

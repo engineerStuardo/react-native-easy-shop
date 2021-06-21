@@ -4,6 +4,8 @@ import { Button, Card } from 'react-native-paper';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
 import { connect } from 'react-redux';
+import Toast from 'react-native-toast-message';
+
 import { addToCart } from '../../Redux/cart/cartActions';
 
 const CardContainer = styled.View`
@@ -80,7 +82,15 @@ const ProductCard = ({ item, addItemToCart }) => {
                 mode='contained'
                 color='#5cb85c'
                 labelStyle={{ color: 'white' }}
-                onPress={() => addItemToCart(item)}
+                onPress={() => {                  
+                  addItemToCart(item);
+                  Toast.show({
+                    topOffset:60,
+                    type: 'success',
+                    text1: `Added to Cart: ${name}`,
+                    text2: 'Go to your cart to complete order'
+                  })
+                  }}
               >
                 Add
               </Button>
