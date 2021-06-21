@@ -26,20 +26,21 @@ const Register = ({ navigation }) => {
   const [error, setError] = useState('');
 
   const registerUser=async(user)=>{
-    try {
-      const response = await axios.post(`${baseURL}users/register`,user);  
-      if(response.status===200){
-        Toast.show({
-          topOffset:60,
-          type:'success',
-          text1:'Registration Succeeded',
-          text2:'Please login into your account'
-        })
-        setTimeout(()=>{
-          navigation.navigate('Login')
-        },500)
-      }
-    } catch (error) {
+    try{
+      const response = await axios.post(`${baseURL}users/register/`,user)
+        if(response.status===200){
+          Toast.show({
+            topOffset:60,
+            type:'success',
+            text1:'Registration Succeeded',
+            text2:'Please login into your account'
+          })
+          setTimeout(()=>{
+            navigation.navigate('Login')
+          },500)
+        }        
+      }catch (error){
+      console.log(error);
       Toast.show({
         topOffset:60,
         type:'error',

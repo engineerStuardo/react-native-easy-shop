@@ -76,7 +76,10 @@ const Login = ({ navigation }) => {
           style={{ width: '80%', backgroundColor: 'orange', marginTop: 10 }}
           icon='account-plus-outline'
           mode='contained'
-          onPress={() => navigation.navigate('Register')}
+          onPress={() => {
+            setError('');
+            navigation.navigate('Register');
+            }}
         >
           Register
         </Button>
