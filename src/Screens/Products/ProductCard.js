@@ -82,15 +82,15 @@ const ProductCard = ({ item, addItemToCart }) => {
                 mode='contained'
                 color='#5cb85c'
                 labelStyle={{ color: 'white' }}
-                onPress={() => {                  
+                onPress={() => {
                   addItemToCart(item);
                   Toast.show({
-                    topOffset:60,
+                    topOffset: 60,
                     type: 'success',
                     text1: `Added to Cart: ${name}`,
                     text2: 'Go to your cart to complete order'
                   })
-                  }}
+                }}
               >
                 Add
               </Button>

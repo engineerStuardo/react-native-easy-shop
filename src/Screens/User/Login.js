@@ -79,7 +79,7 @@ const Login = ({ navigation }) => {
           onPress={() => {
             setError('');
             navigation.navigate('Register');
-            }}
+          }}
         >
           Register
         </Button>

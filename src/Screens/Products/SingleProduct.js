@@ -47,7 +47,7 @@ const ButtonContainer = styled.View`
   margin-bottom: 75px;
 `;
 
-const SingleProduct = ({ route,addItemToCart }) => {
+const SingleProduct = ({ route, addItemToCart }) => {
   const [item, setItem] = useState(route.params.product);
   const [availability, setAvailability] = useState(null);
 
@@ -77,13 +77,13 @@ const SingleProduct = ({ route,addItemToCart }) => {
             color='#5cb85c'
             labelStyle={{ color: 'white' }}
             onPress={() => {
-               addItemToCart(item);
-                  Toast.show({
-                    topOffset:60,
-                    type: 'success',
-                    text1: `Added to Cart: ${item.name}`,
-                    text2: 'Go to your cart to complete order'
-                  })
+              addItemToCart(item);
+              Toast.show({
+                topOffset: 60,
+                type: 'success',
+                text1: `Added to Cart: ${item.name}`,
+                text2: 'Go to your cart to complete order'
+              })
             }}
           >
             Add
@@ -98,4 +98,4 @@ const mapDispatchToProps = dispatch => ({
   addItemToCart: product => dispatch(addToCart({ quantity: 1, product })),
 });
 
-export default connect(null,mapDispatchToProps)(SingleProduct);
+export default connect(null, mapDispatchToProps)(SingleProduct);
