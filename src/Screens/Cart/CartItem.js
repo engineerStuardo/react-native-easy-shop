@@ -3,7 +3,6 @@ import { View, Text } from 'react-native';
 import { List, Avatar, Divider } from 'react-native-paper';
 
 export const CartItem = ({ item, isCheckout }) => {
-  console.log(item);
   return (
     <View style={{ backgroundColor: 'white' }}>
       <List.Item
@@ -32,10 +31,10 @@ export const CartItem = ({ item, isCheckout }) => {
               uri: !isCheckout
                 ? item.item.product.image
                 : item.product.image
-                ? !isCheckout
-                  ? item.item.product.image
-                  : item.product.image
-                : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyTCWc8MMglc2fQjamLEgQK6BGTAituuBvAQ&usqp=CAU',
+                  ? !isCheckout
+                    ? item.item.product.image
+                    : item.product.image
+                  : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyTCWc8MMglc2fQjamLEgQK6BGTAituuBvAQ&usqp=CAU',
             }}
           />
         )}
