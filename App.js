@@ -19,7 +19,7 @@ export default function App() {
           <Header />
           <Main />
         </SafeArea>
-        <Toast ref={(ref) => Toast.setRef(ref)} />
+        <Toast ref={ref => Toast.setRef(ref)} />
       </NavigationContainer>
     </Provider>
   );

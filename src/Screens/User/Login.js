@@ -36,11 +36,11 @@ const Login = ({ navigation, loginUser, user }) => {
     if (jwt || user.isAuthenticated) {
       navigation.navigate('UserProfile');
     }
-  }
+  };
 
   useFocusEffect(() => {
     loadingToken();
-  }, [user.isAuthenticated])
+  }, [user.isAuthenticated]);
 
   const handleSubmit = () => {
     const user = {
@@ -52,7 +52,7 @@ const Login = ({ navigation, loginUser, user }) => {
       setError('Please fill in your credentials');
     } else {
       setError('');
-      loginUser(user)
+      loginUser(user);
     }
   };
 
@@ -76,7 +76,13 @@ const Login = ({ navigation, loginUser, user }) => {
       />
       <LoginButtonContainer>
         {error ? <Error message={error} /> : null}
-        {user.loading ? <ActivityIndicator animating={true} color={Colors.orange800} size={'small'} /> :
+        {user.loading ? (
+          <ActivityIndicator
+            animating={true}
+            color={Colors.orange800}
+            size={'small'}
+          />
+        ) : (
           <Button
             style={{ width: '80%', backgroundColor: 'orange' }}
             icon='login'
@@ -85,7 +91,7 @@ const Login = ({ navigation, loginUser, user }) => {
           >
             Login
           </Button>
-        }
+        )}
       </LoginButtonContainer>
       {!user.loading && (
         <RegisterButtonContainer>
@@ -108,11 +114,11 @@ const Login = ({ navigation, loginUser, user }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  loginUser: (user) => dispatch(loginUser(user)),
-})
+  loginUser: user => dispatch(loginUser(user)),
+});
 
 const mapStateToProps = ({ user }) => ({
-  user
-})
+  user,
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

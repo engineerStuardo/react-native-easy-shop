@@ -88,8 +88,8 @@ const ProductCard = ({ item, addItemToCart }) => {
                     topOffset: 60,
                     type: 'success',
                     text1: `Added to Cart: ${name}`,
-                    text2: 'Go to your cart to complete order'
-                  })
+                    text2: 'Go to your cart to complete order',
+                  });
                 }}
               >
                 Add

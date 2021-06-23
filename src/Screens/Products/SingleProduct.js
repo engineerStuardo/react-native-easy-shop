@@ -82,8 +82,8 @@ const SingleProduct = ({ route, addItemToCart }) => {
                 topOffset: 60,
                 type: 'success',
                 text1: `Added to Cart: ${item.name}`,
-                text2: 'Go to your cart to complete order'
-              })
+                text2: 'Go to your cart to complete order',
+              });
             }}
           >
             Add

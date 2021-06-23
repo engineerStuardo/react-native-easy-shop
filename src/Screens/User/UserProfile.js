@@ -19,43 +19,52 @@ const LoginButtonContainer = styled(View)`
 
 const UserProfile = ({ navigation, logoutUser, user }) => {
   const [userProfile, setUserProfile] = useState('');
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   const logout = () => {
     AsyncStorage.removeItem('jwt').then(() => {
       logoutUser();
       navigation.navigate('Login');
     });
-  }
+  };
 
   useEffect(() => {
-    setLoading(true)
-    AsyncStorage.getItem('jwt').then((res) => {
+    setLoading(true);
+    AsyncStorage.getItem('jwt').then(res => {
       //TODO: Fix bug when we close app and reload user is empty
       console.log('my token is: ' + res);
-      axios.get(`${baseURL}users/${user.user.userId}/`, { headers: { Authorization: `Bearer ${res}` } })
-        .then((user) => {
+      axios
+        .get(`${baseURL}users/${user.user.userId}/`, {
+          headers: { Authorization: `Bearer ${res}` },
+        })
+        .then(user => {
           setUserProfile(user.data);
           setLoading(false);
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
-        })
-    })
-  }, [user.isAuthenticated])
+        });
+    });
+  }, [user.isAuthenticated]);
 
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', }}>
-        <ActivityIndicator animating={true} color={Colors.orange800} size={50} />
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <ActivityIndicator
+          animating={true}
+          color={Colors.orange800}
+          size={50}
+        />
       </View>
-    )
+    );
   }
 
   return (
     <View>
       <View style={{ alignSelf: 'center', alignItems: 'center' }}>
-        <Text style={{ fontSize: 30, marginTop: 30, marginBottom: 15 }}>{userProfile.name}</Text>
+        <Text style={{ fontSize: 30, marginTop: 30, marginBottom: 15 }}>
+          {userProfile.name}
+        </Text>
         <View style={{ marginBottom: 40 }}>
           <Text>Email: {userProfile.email}</Text>
           <Text>Phone: {userProfile.phone}</Text>
@@ -76,11 +85,11 @@ const UserProfile = ({ navigation, logoutUser, user }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  logoutUser: () => dispatch(logoutUser())
-})
+  logoutUser: () => dispatch(logoutUser()),
+});
 
 const mapStateToProps = ({ user }) => ({
-  user
-})
+  user,
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);

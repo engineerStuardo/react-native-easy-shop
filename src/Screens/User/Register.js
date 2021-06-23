@@ -25,29 +25,29 @@ const Register = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const registerUser = async (user) => {
+  const registerUser = async user => {
     try {
-      const response = await axios.post(`${baseURL}users/register/`, user)
+      const response = await axios.post(`${baseURL}users/register/`, user);
       if (response.status === 200) {
         Toast.show({
           topOffset: 60,
           type: 'success',
           text1: 'Registration Succeeded',
-          text2: 'Please login into your account'
-        })
+          text2: 'Please login into your account',
+        });
         setTimeout(() => {
-          navigation.navigate('Login')
-        }, 500)
+          navigation.navigate('Login');
+        }, 500);
       }
     } catch (error) {
       Toast.show({
         topOffset: 60,
         type: 'error',
         text1: 'Something went wrong',
-        text2: 'Please try again'
-      })
+        text2: 'Please try again',
+      });
     }
-  }
+  };
 
   const register = () => {
     if (email === '' || name === '' || phone === '' || password === '') {
@@ -59,8 +59,8 @@ const Register = ({ navigation }) => {
         email,
         password,
         phone,
-        isAdmin: false
-      }
+        isAdmin: false,
+      };
 
       registerUser(user);
     }
