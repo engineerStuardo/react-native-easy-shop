@@ -11,7 +11,6 @@ import { AdminNavigator } from './AdminNavigator';
 const Tab = createBottomTabNavigator();
 
 const Main = ({ user }) => {
-  console.log(user);
   return (
     <Tab.Navigator
       screenOptions={createScreenOptions}
