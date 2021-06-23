@@ -7,7 +7,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { ActivityIndicator, Colors } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
-import jwt_decode from 'jwt-decode';
 
 import { logoutUser } from '../../Redux/user/userActions';
 import baseURL from '../../../assets/common/baseUrl';
@@ -35,12 +34,7 @@ const UserProfile = ({ navigation, logoutUser, user }) => {
     useCallback(() => {
       setLoading(true);
       AsyncStorage.getItem('jwt').then(res => {
-        if (Object.entries(user).length === 0) {
-          const decodedToken = jwt_decode(res);
-          setUserInfo(decodedToken.userId);
-        } else {
-          setUserInfo(user.user.userId);
-        }
+        setUserInfo(user.user.userId);
         axios
           .get(`${baseURL}users/id/${userInfo}/`, {
             headers: { Authorization: `Bearer ${res}` },
