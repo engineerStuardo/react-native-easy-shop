@@ -1,14 +1,17 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { connect } from 'react-redux';
 
 import { createScreenOptions, tabBarColors } from './app.navigator.options';
 import { HomeNavigator } from './HomeNavigator';
 import { CartNavigator } from './CartNavigator';
 import { UserNavigator } from './UserNavigator';
+import { AdminNavigator } from './AdminNavigator';
 
 const Tab = createBottomTabNavigator();
 
-export const Main = () => {
+const Main = ({ user }) => {
+  console.log(user);
   return (
     <Tab.Navigator
       screenOptions={createScreenOptions}
@@ -17,8 +20,15 @@ export const Main = () => {
     >
       <Tab.Screen name='Home' component={HomeNavigator} />
       <Tab.Screen name='Cart' component={CartNavigator} />
-      <Tab.Screen name='Admin' component={HomeNavigator} />
+      {user.user.isAdmin && (
+        <Tab.Screen name='Admin' component={AdminNavigator} />
+      )}
+
       <Tab.Screen name='User' component={UserNavigator} />
     </Tab.Navigator>
   );
 };
+
+const mapStateToProps = ({ user }) => ({ user });
+
+export default connect(mapStateToProps)(Main);

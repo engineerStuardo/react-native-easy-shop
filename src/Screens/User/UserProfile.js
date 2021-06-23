@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text } from 'react-native';
 import styled from 'styled-components/native';
 import { Button } from 'react-native-paper';
@@ -8,7 +8,6 @@ import axios from 'axios';
 import { ActivityIndicator, Colors } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 import jwt_decode from 'jwt-decode';
-import Toast from 'react-native-toast-message';
 
 import { logoutUser } from '../../Redux/user/userActions';
 import baseURL from '../../../assets/common/baseUrl';
@@ -43,7 +42,7 @@ const UserProfile = ({ navigation, logoutUser, user }) => {
           setUserInfo(user.user.userId);
         }
         axios
-          .get(`${baseURL}users/${userInfo}/`, {
+          .get(`${baseURL}users/id/${userInfo}/`, {
             headers: { Authorization: `Bearer ${res}` },
           })
           .then(user => {

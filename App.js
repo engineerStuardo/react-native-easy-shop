@@ -6,7 +6,7 @@ import Toast from 'react-native-toast-message';
 
 import { SafeArea } from './src/Utility/safe-area-component';
 import { Header } from './src/Shared/Header';
-import { Main } from './src/Navigators/Main';
+import Main from './src/Navigators/Main';
 import { store } from './src/Redux/store';
 
 LogBox.ignoreAllLogs(true);

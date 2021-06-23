@@ -1,7 +1,14 @@
 import { UserActionTypes } from './userTypes';
 import isEmpty from './isEmpty';
 
-export const user = (state = {}, action) => {
+const initialState = {
+  isAuthenticated: false,
+  user: {},
+  userProfile: {},
+  loading: false,
+};
+
+export const user = (state = initialState, action) => {
   switch (action.type) {
     case UserActionTypes.USER_LOGIN_SUCCESS:
       return {
@@ -11,7 +18,12 @@ export const user = (state = {}, action) => {
         userProfile: action.payload.user,
       };
     case UserActionTypes.USER_LOGOUT:
-      return {};
+      return {
+        isAuthenticated: false,
+        user: {},
+        userProfile: {},
+        loading: false,
+      };
     case UserActionTypes.USER_LOADING:
       return { ...state, loading: action.payload };
   }
