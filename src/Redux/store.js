@@ -7,7 +7,7 @@ import { user } from './user/userReducer';
 
 const reducers = combineReducers({
   cartItems,
-  user
+  user,
 });
 
 export const store = createStore(
