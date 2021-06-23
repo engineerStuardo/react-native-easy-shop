@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text } from 'react-native';
 import styled from 'styled-components/native';
 import { Button } from 'react-native-paper';
@@ -6,6 +6,9 @@ import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { ActivityIndicator, Colors } from 'react-native-paper';
+import { useFocusEffect } from '@react-navigation/native';
+import jwt_decode from 'jwt-decode';
+import Toast from 'react-native-toast-message';
 
 import { logoutUser } from '../../Redux/user/userActions';
 import baseURL from '../../../assets/common/baseUrl';
@@ -19,6 +22,7 @@ const LoginButtonContainer = styled(View)`
 
 const UserProfile = ({ navigation, logoutUser, user }) => {
   const [userProfile, setUserProfile] = useState('');
+  const [userInfo, setUserInfo] = useState({});
   const [loading, setLoading] = useState(true);
 
   const logout = () => {
@@ -28,24 +32,31 @@ const UserProfile = ({ navigation, logoutUser, user }) => {
     });
   };
 
-  useEffect(() => {
-    setLoading(true);
-    AsyncStorage.getItem('jwt').then(res => {
-      //TODO: Fix bug when we close app and reload user is empty
-      console.log('my token is: ' + res);
-      axios
-        .get(`${baseURL}users/${user.user.userId}/`, {
-          headers: { Authorization: `Bearer ${res}` },
-        })
-        .then(user => {
-          setUserProfile(user.data);
-          setLoading(false);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    });
-  }, [user.isAuthenticated]);
+  useFocusEffect(
+    useCallback(() => {
+      setLoading(true);
+      AsyncStorage.getItem('jwt').then(res => {
+        if (Object.entries(user).length === 0) {
+          const decodedToken = jwt_decode(res);
+          setUserInfo(decodedToken.userId);
+        } else {
+          setUserInfo(user.user.userId);
+        }
+        axios
+          .get(`${baseURL}users/${userInfo}/`, {
+            headers: { Authorization: `Bearer ${res}` },
+          })
+          .then(user => {
+            setUserProfile(user.data);
+            setLoading(false);
+          })
+          .catch(error => {
+            setLoading(false);
+            console.log(error);
+          });
+      });
+    }, [userInfo])
+  );
 
   if (loading) {
     return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 import styled from 'styled-components/native';
@@ -38,9 +38,11 @@ const Login = ({ navigation, loginUser, user }) => {
     }
   };
 
-  useFocusEffect(() => {
-    loadingToken();
-  }, [user.isAuthenticated]);
+  useFocusEffect(
+    useCallback(() => {
+      loadingToken();
+    }, [user.isAuthenticated])
+  );
 
   const handleSubmit = () => {
     const user = {
