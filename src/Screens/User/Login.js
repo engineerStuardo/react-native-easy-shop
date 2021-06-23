@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 import { connect } from 'react-redux';
 import { ActivityIndicator, Colors } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { FormContainer } from '../../Shared/Form/FormContainer';
 import { Input } from '../../Shared/Form/Input';
@@ -30,10 +31,15 @@ const Login = ({ navigation, loginUser, user }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  useFocusEffect(() => {
-    if (user.isAuthenticated) {
-      navigation.navigate('UserProfile')
+  const loadingToken = async () => {
+    const jwt = await AsyncStorage.getItem('jwt');
+    if (jwt || user.isAuthenticated) {
+      navigation.navigate('UserProfile');
     }
+  }
+
+  useFocusEffect(() => {
+    loadingToken();
   }, [user.isAuthenticated])
 
   const handleSubmit = () => {
@@ -49,10 +55,6 @@ const Login = ({ navigation, loginUser, user }) => {
       loginUser(user)
     }
   };
-
-  if (user.isAuthenticated) {
-    return null;
-  }
 
   return (
     <FormContainer title='Login'>

@@ -11,12 +11,9 @@ export const loginSuccess = (decodedToken, user) => ({
 	payload: { decodedToken, user }
 });
 
-export const logoutUser = () => {
-	AsyncStorage.removeItem('jwt');
-	return {
-		type: UserActionTypes.USER_LOGOUT,
-	}
-};
+export const logoutUser = () => ({
+	type: UserActionTypes.USER_LOGOUT,
+});
 
 export const userLoading = (loading) => ({
 	type: UserActionTypes.USER_LOADING,
@@ -32,21 +29,23 @@ export const loginUser = (user) => {
 				if (response.data) {
 					const { token } = response.data;
 					AsyncStorage.setItem('jwt', token);
-					const decodedToken = jwt_decode(token)
-					dispatch(loginSuccess(decodedToken, user))
+					const decodedToken = jwt_decode(token);
+					dispatch(loginSuccess(decodedToken, user));
 					dispatch(userLoading(false));
 				} else {
-					dispatch(logoutUser())
+					dispatch(logoutUser());
+					dispatch(userLoading(false));
 				}
 			})
 			.catch((error) => {
-				dispatch(logoutUser())
+				dispatch(logoutUser());
 				dispatch(userLoading(false));
+				AsyncStorage.removeItem('jwt');
 				Toast.show({
 					topOffset: 60,
 					type: 'error',
 					text1: "Please provide correct credentials"
-				})
+				});
 			})
 	}
 }
