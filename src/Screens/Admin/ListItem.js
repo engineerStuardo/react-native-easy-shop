@@ -6,34 +6,41 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   Button,
+  Dimensions,
 } from 'react-native';
 import styled from 'styled-components/native';
+
+const windowWidth = Dimensions.get('window').width;
 
 const TouchableContainer = styled(TouchableOpacity)`
   flex-direction: row;
   padding: 10px;
-  width: 100%;
+  width: ${props => props.windowWidth};
   background-color: ${props => (props.index % 2 === 0 ? 'white' : 'gainsboro')};
   align-items: center;
 `;
 
 const ImageProduct = styled(Image)`
   border-radius: 50px;
-  width: 70px;
+  width: ${props => `${props.windowWidth / 6}px`};
   height: 30px;
 `;
 
 const TextStyled = styled(Text)`
   flex-wrap: wrap;
   margin: 3px;
-  width: ${props => (props.bigger ? '160px' : '80px')};
+  width: ${props =>
+    props.bigger
+      ? `${props.windowWidth / 2.5}px`
+      : `${props.windowWidth / 5}px`};
 `;
 
 const ListItem = ({ image, brand, name, category, price, index }) => {
   return (
-    <>
-      <TouchableContainer index={index}>
+    <View style={{ width: windowWidth }}>
+      <TouchableContainer windowWidth={windowWidth} index={index}>
         <ImageProduct
+          windowWidth={windowWidth}
           source={{
             uri: image
               ? image
@@ -41,15 +48,24 @@ const ListItem = ({ image, brand, name, category, price, index }) => {
           }}
           resizeMode='contain'
         />
-        <TextStyled bigger={true} numberOfLines={1} ellipsizeMode='tail'>
+        <TextStyled
+          windowWidth={windowWidth}
+          bigger={true}
+          numberOfLines={1}
+          ellipsizeMode='tail'
+        >
           {name}
         </TextStyled>
-        <TextStyled numberOfLines={1} ellipsizeMode='tail'>
+        <TextStyled
+          windowWidth={windowWidth}
+          numberOfLines={1}
+          ellipsizeMode='tail'
+        >
           {category.name}
         </TextStyled>
-        <TextStyled>${price}</TextStyled>
+        <TextStyled windowWidth={windowWidth}>${price}</TextStyled>
       </TouchableContainer>
-    </>
+    </View>
   );
 };
 

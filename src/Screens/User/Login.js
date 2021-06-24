@@ -68,7 +68,6 @@ const Login = ({ navigation, loginUser, user }) => {
         placeholder={'Enter Email'}
         name={'email'}
         id={'email'}
-        value={email}
         keyboardType='email-address'
         onChangeText={text => setEmail(text.toLowerCase())}
       />
