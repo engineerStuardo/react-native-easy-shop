@@ -58,6 +58,10 @@ const Login = ({ navigation, loginUser, user }) => {
     }
   };
 
+  if (user.isAuthenticated) {
+    return null;
+  }
+
   return (
     <FormContainer title='Login'>
       <Input
