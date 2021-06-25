@@ -9,7 +9,7 @@ import { clearCart } from '../../../Redux/cart/cartActions';
 
 const PlaceOrderButton = styled(Button)`
   border-radius: 20px;
-  background-color: #009dff;
+  background-color: #39c0ed;
   padding: 5px;
 `;
 

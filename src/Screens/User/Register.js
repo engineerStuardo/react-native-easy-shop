@@ -103,7 +103,7 @@ const Register = ({ navigation }) => {
         <RegisterButtonContainer>
           {error ? <Error message={error} /> : null}
           <Button
-            style={{ width: '80%', backgroundColor: 'orange' }}
+            style={{ width: '80%', backgroundColor: '#5cb85c' }}
             icon='account-plus-outline'
             mode='contained'
             onPress={() => register()}
@@ -111,7 +111,7 @@ const Register = ({ navigation }) => {
             Register
           </Button>
           <Button
-            style={{ width: '80%', backgroundColor: 'orange', marginTop: 15 }}
+            style={{ width: '80%', backgroundColor: '#39c0ed', marginTop: 15 }}
             icon='keyboard-return'
             mode='contained'
             onPress={() => navigation.navigate('Login')}

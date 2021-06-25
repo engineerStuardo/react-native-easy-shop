@@ -5,10 +5,14 @@ import {
   Image,
   TouchableHighlight,
   TouchableOpacity,
-  Button,
   Dimensions,
+  Modal,
 } from 'react-native';
+import { Button, IconButton, Colors } from 'react-native-paper';
 import styled from 'styled-components/native';
+import { useNavigation } from '@react-navigation/native';
+
+import ListItemModal from './ListItemModal';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -35,10 +39,27 @@ const TextStyled = styled(Text)`
       : `${props.windowWidth / 5}px`};
 `;
 
-const ListItem = ({ image, brand, name, category, price, index }) => {
+const ListItem = ({ item, index }) => {
+  const { image, brand, name, category, price } = item;
+  const [modalVisible, setModalVisible] = useState(false);
+  const navigation = useNavigation();
+
   return (
-    <View style={{ width: windowWidth }}>
-      <TouchableContainer windowWidth={windowWidth} index={index}>
+    <View
+      style={{
+        width: windowWidth,
+      }}
+    >
+      <ListItemModal
+        setModalVisible={setModalVisible}
+        modalVisible={modalVisible}
+      />
+      <TouchableContainer
+        windowWidth={windowWidth}
+        index={index}
+        onPress={() => navigation.navigate('SingleProduct', { product: item })}
+        onLongPress={() => setModalVisible(true)}
+      >
         <ImageProduct
           windowWidth={windowWidth}
           source={{

@@ -92,7 +92,9 @@ const Products = () => {
         <FlatList
           ListHeaderComponent={ListHeader}
           data={productFilter}
-          renderItem={({ item, index }) => <ListItem {...item} index={index} />}
+          renderItem={({ item, index }) => (
+            <ListItem item={item} index={index} />
+          )}
           keyExtractor={item => item.id}
         />
       )}

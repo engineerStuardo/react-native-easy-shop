@@ -89,7 +89,7 @@ const Login = ({ navigation, loginUser, user }) => {
           />
         ) : (
           <Button
-            style={{ width: '80%', backgroundColor: 'orange' }}
+            style={{ width: '80%', backgroundColor: '#5cb85c' }}
             icon='login'
             mode='contained'
             onPress={() => handleSubmit()}
@@ -102,7 +102,7 @@ const Login = ({ navigation, loginUser, user }) => {
         <RegisterButtonContainer>
           <Text>Don't have an account yet?</Text>
           <Button
-            style={{ width: '80%', backgroundColor: 'orange', marginTop: 10 }}
+            style={{ width: '80%', backgroundColor: '#39c0ed', marginTop: 10 }}
             icon='account-plus-outline'
             mode='contained'
             onPress={() => {

@@ -30,15 +30,14 @@ const CartFooter = ({ total, clearCart }) => {
       <TotalText>$ {total.toFixed(2)}</TotalText>
       <ButtonsContainer>
         <Button
-          style={{ marginRight: 10 }}
-          color='#428bca'
+          style={{ marginRight: 10, backgroundColor: '#f93154' }}
           mode='contained'
           onPress={() => clearCart()}
         >
           Clear
         </Button>
         <Button
-          color='#428bca'
+          style={{ backgroundColor: '#5cb85c' }}
           mode='contained'
           onPress={() => navigation.navigate('Checkout')}
         >
