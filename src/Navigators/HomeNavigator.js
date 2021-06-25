@@ -8,9 +8,21 @@ const Stack = createStackNavigator();
 
 export const HomeNavigator = () => {
   return (
-    <Stack.Navigator headerMode='none' initialRouteName='Home'>
-      <Stack.Screen name='Home' component={ProductContainer} />
-      <Stack.Screen name='SingleProduct' component={SingleProduct} />
+    <Stack.Navigator initialRouteName='Home'>
+      <Stack.Screen
+        name='Home'
+        component={ProductContainer}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name='SingleProduct'
+        component={SingleProduct}
+        options={{
+          title: 'Product Detail',
+        }}
+      />
     </Stack.Navigator>
   );
 };

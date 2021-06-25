@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Image, View, Text, ScrollView, Dimensions } from 'react-native';
-import { Button } from 'react-native-paper';
+import { View, Text, ScrollView, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { connect } from 'react-redux';
-import Toast from 'react-native-toast-message';
 
 import { addToCart } from '../../Redux/cart/cartActions';
 import CartFooter from '../Cart/CartFooter';
+import TrafficLight from './SingleProductTrafficLight';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -63,6 +62,20 @@ const ButtonContainer = styled.View`
 const SingleProduct = ({ route, addItemToCart }) => {
   const [item, setItem] = useState(route.params.product);
   const [availability, setAvailability] = useState(null);
+  const [availabilityText, setAvailabilityText] = useState('');
+
+  useEffect(() => {
+    if (item.countInStock === 0) {
+      setAvailability(<TrafficLight unavailable />);
+      setAvailabilityText('Unavailable');
+    } else if (item.countInStock <= 5) {
+      setAvailability(<TrafficLight limited />);
+      setAvailabilityText('Limited Stock');
+    } else {
+      setAvailability(<TrafficLight available />);
+      setAvailabilityText('Available');
+    }
+  }, []);
 
   return (
     <>
@@ -77,33 +90,18 @@ const SingleProduct = ({ route, addItemToCart }) => {
             resizeMode='contain'
           />
         </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+          <View style={{ marginRight: 10 }}>
+            <Text>Availability: {availabilityText}</Text>
+          </View>
+          {availability}
+        </View>
         <TextContainer>
           <TextInnerContainer>
             <TextName windowWidth={windowWidth}>{item.name}</TextName>
             <TextName>{item.brand}</TextName>
             <TextDescription>{item.description}</TextDescription>
           </TextInnerContainer>
-          {/* <ButtonContainer>
-          <TextPrice>$ {item.price}</TextPrice>
-          <Button
-            style={{ width: 125 }}
-            icon='cart-plus'
-            mode='contained'
-            color='#5cb85c'
-            labelStyle={{ color: 'white' }}
-            onPress={() => {
-              addItemToCart(item);
-              Toast.show({
-                topOffset: 60,
-                type: 'success',
-                text1: `Added to Cart: ${item.name}`,
-                text2: 'Go to your cart to complete order',
-              });
-            }}
-          >
-            Add
-          </Button>
-        </ButtonContainer> */}
         </TextContainer>
       </ScrollView>
       <CartFooter

@@ -52,6 +52,7 @@ const CartFooter = ({
             mode='contained'
             color='#5cb85c'
             labelStyle={{ color: 'white' }}
+            disabled={item.countInStock === 0 ? true : false}
             onPress={() => {
               addItemToCart(item);
               Toast.show({

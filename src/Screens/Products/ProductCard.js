@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity, Text, View } from 'react-native';
 import { Button, Card } from 'react-native-paper';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
@@ -96,7 +96,16 @@ const ProductCard = ({ item, addItemToCart }) => {
               </Button>
             </ButtonContainer>
           ) : (
-            <Text>Currently Unavailable</Text>
+            <View
+              style={{
+                alignSelf: 'center',
+                backgroundColor: '#ff5c57',
+                padding: 10,
+                marginBottom: 30,
+              }}
+            >
+              <Text style={{ color: 'white' }}>Currently Unavailable</Text>
+            </View>
           )}
         </CardStyling>
       </TouchableOpacity>
