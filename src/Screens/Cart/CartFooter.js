@@ -3,12 +3,13 @@ import { View, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 
 const CartFooterContainer = styled(View)`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  background-color: white;
+  background-color: ${props => (props.singleProduct ? 'transparent' : 'white')};
 `;
 
 const TotalText = styled(Text)`
@@ -22,27 +23,56 @@ const ButtonsContainer = styled(View)`
   margin: 10px;
 `;
 
-const CartFooter = ({ total, clearCart }) => {
+const CartFooter = ({
+  total,
+  clearCart,
+  singleProduct,
+  addItemToCart,
+  item,
+}) => {
   const navigation = useNavigation();
 
   return (
-    <CartFooterContainer>
+    <CartFooterContainer singleProduct={singleProduct}>
       <TotalText>$ {total.toFixed(2)}</TotalText>
       <ButtonsContainer>
-        <Button
-          style={{ marginRight: 10, backgroundColor: '#f93154' }}
-          mode='contained'
-          onPress={() => clearCart()}
-        >
-          Clear
-        </Button>
-        <Button
-          style={{ backgroundColor: '#5cb85c' }}
-          mode='contained'
-          onPress={() => navigation.navigate('Checkout')}
-        >
-          Checkout
-        </Button>
+        {clearCart && (
+          <Button
+            style={{ marginRight: 10, backgroundColor: '#f93154' }}
+            mode='contained'
+            onPress={() => clearCart()}
+          >
+            Clear
+          </Button>
+        )}
+        {singleProduct ? (
+          <Button
+            style={{ width: 125 }}
+            icon='cart-plus'
+            mode='contained'
+            color='#5cb85c'
+            labelStyle={{ color: 'white' }}
+            onPress={() => {
+              addItemToCart(item);
+              Toast.show({
+                topOffset: 60,
+                type: 'success',
+                text1: `Added to Cart: ${item.name}`,
+                text2: 'Go to your cart to complete order',
+              });
+            }}
+          >
+            Add
+          </Button>
+        ) : (
+          <Button
+            style={{ backgroundColor: '#5cb85c' }}
+            mode='contained'
+            onPress={() => navigation.navigate('Checkout')}
+          >
+            Checkout
+          </Button>
+        )}
       </ButtonsContainer>
     </CartFooterContainer>
   );
