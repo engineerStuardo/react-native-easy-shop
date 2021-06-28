@@ -6,8 +6,23 @@ import Toast from 'react-native-toast-message';
 import Error from '../../Shared/Error';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import styled from 'styled-components/native';
+import { Picker } from '@react-native-picker/picker';
 
 import baseURL from '../../../assets/common/baseUrl';
+
+const DropdownContainer = styled(View)`
+  width: 80%;
+  height: 50px;
+  background-color: white;
+  margin: 10px;
+  padding: 10px;
+  border-width: 2px;
+  border-color: orange;
+  align-self: center;
+  border-radius: 20px;
+  justify-content: center;
+`;
 
 const ProductForm = () => {
   const [brand, setBrand] = useState();
@@ -26,6 +41,20 @@ const ProductForm = () => {
   const [richDescription, setRichDescription] = useState();
   const [numReviews, setNumReviews] = useState(0);
   const [item, setItem] = useState(null);
+
+  const LoadCategories = () => {
+    axios
+      .get(`${baseURL}categories`)
+      .then(res => {
+        const data = res.data.filter(item => item.name !== 'All');
+        setCategories(data);
+      })
+      .catch(error => console.log(error));
+  };
+
+  useEffect(() => {
+    LoadCategories();
+  }, []);
 
   return (
     <FormContainer title='Add Product'>
@@ -73,6 +102,16 @@ const ProductForm = () => {
         value={description}
         onChangeText={text => setDescription(text)}
       />
+      <DropdownContainer>
+        <Picker
+          selectedValue={category}
+          onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}
+        >
+          {categories.map(item => (
+            <Picker.Item key={item._id} label={item.name} value={item.name} />
+          ))}
+        </Picker>
+      </DropdownContainer>
     </FormContainer>
   );
 };
