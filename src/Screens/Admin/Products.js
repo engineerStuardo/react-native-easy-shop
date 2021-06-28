@@ -1,6 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, FlatList, ScrollView, Dimensions } from 'react-native';
-import { ActivityIndicator, Colors, TextInput } from 'react-native-paper';
+import {
+  ActivityIndicator,
+  Colors,
+  TextInput,
+  Button,
+  Menu,
+  Divider,
+  Provider,
+} from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -9,6 +17,7 @@ import styled from 'styled-components/native';
 import baseURL from '../../../assets/common/baseUrl';
 import ListItem from './ListItem';
 import ListHeader from './ListHeader';
+import ProductOptions from './ProductOptions';
 
 const InputContainer = styled.View`
   padding: 10px;
@@ -22,7 +31,7 @@ const InputText = styled(TextInput)`
 
 const windowWidth = Dimensions.get('window').width;
 
-const Products = () => {
+const Products = ({ navigation }) => {
   const [productList, setProductList] = useState();
   const [productFilter, setProductFilter] = useState();
   const [loading, setLoading] = useState(true);
@@ -74,42 +83,49 @@ const Products = () => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <InputContainer>
-        <InputText
-          label='Search'
-          mode='outlined'
-          onChangeText={text => searchProduct(text)}
-          left={
-            <TextInput.Icon
-              style={{ marginTop: 15 }}
-              name='magnify'
-              color={'gray'}
-            />
-          }
-        />
-      </InputContainer>
-      {loading ? (
-        <View
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-        >
-          <ActivityIndicator
-            animating={true}
-            color={Colors.orange800}
-            size={'small'}
+    <Provider>
+      <View style={{ flex: 1 }}>
+        <ProductOptions />
+        <InputContainer>
+          <InputText
+            label='Search'
+            mode='outlined'
+            onChangeText={text => searchProduct(text)}
+            left={
+              <TextInput.Icon
+                style={{ marginTop: 15 }}
+                name='magnify'
+                color={'gray'}
+              />
+            }
           />
-        </View>
-      ) : (
-        <FlatList
-          ListHeaderComponent={ListHeader}
-          data={productFilter}
-          renderItem={({ item, index }) => (
-            <ListItem item={item} index={index} deleteProduct={deleteProduct} />
-          )}
-          keyExtractor={item => item.id}
-        />
-      )}
-    </View>
+        </InputContainer>
+        {loading ? (
+          <View
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          >
+            <ActivityIndicator
+              animating={true}
+              color={Colors.orange800}
+              size={'small'}
+            />
+          </View>
+        ) : (
+          <FlatList
+            ListHeaderComponent={ListHeader}
+            data={productFilter}
+            renderItem={({ item, index }) => (
+              <ListItem
+                item={item}
+                index={index}
+                deleteProduct={deleteProduct}
+              />
+            )}
+            keyExtractor={item => item.id}
+          />
+        )}
+      </View>
+    </Provider>
   );
 };
 
