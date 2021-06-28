@@ -48,7 +48,12 @@ const DeleteButton = styled(Button)`
   width: 100px;
 `;
 
-const ListItemModal = ({ modalVisible, setModalVisible }) => {
+const ListItemModal = ({
+  modalVisible,
+  setModalVisible,
+  id,
+  deleteProduct,
+}) => {
   const navigation = useNavigation();
 
   return (
@@ -80,7 +85,7 @@ const ListItemModal = ({ modalVisible, setModalVisible }) => {
             color={'#FBFBFB'}
             icon='delete'
             onPress={() => {
-              navigation.navigate('ProductForm');
+              deleteProduct(id);
               setModalVisible(false);
             }}
           >

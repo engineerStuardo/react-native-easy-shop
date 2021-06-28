@@ -62,6 +62,17 @@ const Products = () => {
     );
   };
 
+  const deleteProduct = id => {
+    axios
+      .delete(`${baseURL}products/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(res => {
+        setProductFilter(productFilter.filter(item => item.id !== id));
+      })
+      .catch(err => console.log(err));
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <InputContainer>
@@ -93,7 +104,7 @@ const Products = () => {
           ListHeaderComponent={ListHeader}
           data={productFilter}
           renderItem={({ item, index }) => (
-            <ListItem item={item} index={index} />
+            <ListItem item={item} index={index} deleteProduct={deleteProduct} />
           )}
           keyExtractor={item => item.id}
         />

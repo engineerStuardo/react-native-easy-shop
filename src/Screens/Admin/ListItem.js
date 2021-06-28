@@ -39,8 +39,8 @@ const TextStyled = styled(Text)`
       : `${props.windowWidth / 5}px`};
 `;
 
-const ListItem = ({ item, index }) => {
-  const { image, brand, name, category, price } = item;
+const ListItem = ({ item, index, deleteProduct }) => {
+  const { id, image, brand, name, category, price } = item;
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
 
@@ -53,6 +53,8 @@ const ListItem = ({ item, index }) => {
       <ListItemModal
         setModalVisible={setModalVisible}
         modalVisible={modalVisible}
+        deleteProduct={deleteProduct}
+        id={id}
       />
       <TouchableContainer
         windowWidth={windowWidth}
