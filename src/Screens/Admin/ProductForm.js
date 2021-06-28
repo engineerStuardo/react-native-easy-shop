@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import styled from 'styled-components/native';
 import { Picker } from '@react-native-picker/picker';
+import { Button } from 'react-native-paper';
 
 import baseURL from '../../../assets/common/baseUrl';
 
@@ -22,6 +23,18 @@ const DropdownContainer = styled(View)`
   align-self: center;
   border-radius: 20px;
   justify-content: center;
+`;
+
+const ConfirmButtonContainer = styled(View)`
+  width: 200px;
+  align-self: center;
+  margin-bottom: 80px;
+`;
+
+const ConfirmButton = styled(Button)`
+  border-radius: 20px;
+  background-color: #5cb85c;
+  padding: 5px;
 `;
 
 const ProductForm = () => {
@@ -112,6 +125,12 @@ const ProductForm = () => {
           ))}
         </Picker>
       </DropdownContainer>
+      {error ? <Error message={error} /> : null}
+      <ConfirmButtonContainer>
+        <ConfirmButton icon='plus-box' mode='contained' onPress={() => {}}>
+          Confirm
+        </ConfirmButton>
+      </ConfirmButtonContainer>
     </FormContainer>
   );
 };
