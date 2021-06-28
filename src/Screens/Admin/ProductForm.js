@@ -9,6 +9,8 @@ import axios from 'axios';
 import styled from 'styled-components/native';
 import { Picker } from '@react-native-picker/picker';
 import { Button } from 'react-native-paper';
+import * as ImagePicker from 'expo-image-picker';
+import { Avatar } from 'react-native-paper';
 
 import baseURL from '../../../assets/common/baseUrl';
 
@@ -37,6 +39,12 @@ const ConfirmButton = styled(Button)`
   padding: 5px;
 `;
 
+const ImageContainer = styled(View)`
+  align-self: center;
+  margin-top: 10px;
+  margin-bottom: 25px;
+`;
+
 const ProductForm = () => {
   const [brand, setBrand] = useState();
   const [name, setName] = useState();
@@ -55,7 +63,7 @@ const ProductForm = () => {
   const [numReviews, setNumReviews] = useState(0);
   const [item, setItem] = useState(null);
 
-  const LoadCategories = () => {
+  const loadCategories = () => {
     axios
       .get(`${baseURL}categories`)
       .then(res => {
@@ -65,19 +73,58 @@ const ProductForm = () => {
       .catch(error => console.log(error));
   };
 
+  const imagePickerPermissions = async () => {
+    if (Platform.OS !== 'web') {
+      const { status } = await ImagePicker.requestCameraPermissionsAsync();
+      if (status !== 'granted') {
+        Toast.show({
+          topOffset: 60,
+          type: 'info',
+          text1: 'Sorry, we need camera roll permissions to make this work!',
+        });
+      }
+    }
+  };
+
   useEffect(() => {
-    LoadCategories();
+    loadCategories();
+    imagePickerPermissions();
   }, []);
+
+  const pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setMainImage(result.uri);
+      setImage(result.uri);
+    }
+  };
 
   return (
     <FormContainer title='Add Product'>
-      <View>
-        <Image source={{ uri: mainImage }} />
-        <TouchableOpacity>
-          <Text>IMAGE</Text>
+      <ImageContainer>
+        <Avatar.Image
+          size={200}
+          source={{ uri: mainImage }}
+          style={{ backgroundColor: 'white' }}
+        />
+        <TouchableOpacity
+          style={{ position: 'absolute', top: 150, right: 5 }}
+          onPress={pickImage}
+        >
+          <Avatar.Icon
+            size={35}
+            icon='camera'
+            style={{ backgroundColor: 'orange' }}
+            color={'white'}
+          />
         </TouchableOpacity>
-      </View>
-
+      </ImageContainer>
       <Input
         placeholder={'Brand'}
         name={'brand'}
