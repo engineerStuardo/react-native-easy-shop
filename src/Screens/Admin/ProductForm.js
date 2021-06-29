@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity, Platform } from 'react-native';
+import { View, TouchableOpacity, Platform } from 'react-native';
 import { FormContainer } from '../../Shared/Form/FormContainer';
 import { Input } from '../../Shared/Form/Input';
 import Toast from 'react-native-toast-message';
-import Error from '../../Shared/Error';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import styled from 'styled-components/native';
@@ -11,6 +10,8 @@ import { Picker } from '@react-native-picker/picker';
 import { Button } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import { Avatar } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+import mime from 'mime';
 
 import baseURL from '../../../assets/common/baseUrl';
 
@@ -46,22 +47,31 @@ const ImageContainer = styled(View)`
 `;
 
 const ProductForm = () => {
-  const [brand, setBrand] = useState();
-  const [name, setName] = useState();
-  const [price, setPrice] = useState();
-  const [description, setDescription] = useState();
+  const [brand, setBrand] = useState('');
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState('');
+  const [description, setDescription] = useState('');
   const [image, setImage] = useState();
   const [mainImage, setMainImage] = useState();
-  const [category, setCategory] = useState();
+  const [category, setCategory] = useState('5f15d54cf3a046427a1c26e3');
   const [categories, setCategories] = useState([]);
   const [token, setToken] = useState();
-  const [error, setError] = useState();
-  const [countInStock, setCountInStock] = useState();
+  const [countInStock, setCountInStock] = useState('');
   const [rating, setRating] = useState();
   const [isFeatured, setIsFeatured] = useState(false);
   const [richDescription, setRichDescription] = useState();
   const [numReviews, setNumReviews] = useState(0);
   const [item, setItem] = useState(null);
+
+  const navigation = useNavigation();
+
+  const getToken = () => {
+    AsyncStorage.getItem('jwt')
+      .then(token => {
+        setToken(token);
+      })
+      .catch(err => console.log(err));
+  };
 
   const loadCategories = () => {
     axios
@@ -87,6 +97,7 @@ const ProductForm = () => {
   };
 
   useEffect(() => {
+    getToken();
     loadCategories();
     imagePickerPermissions();
   }, []);
@@ -103,6 +114,74 @@ const ProductForm = () => {
       setMainImage(result.uri);
       setImage(result.uri);
     }
+  };
+
+  const addProduct = () => {
+    if (
+      name === '' ||
+      brand === '' ||
+      price === '' ||
+      description === '' ||
+      category === '' ||
+      countInStock === ''
+    ) {
+      Toast.show({
+        topOffset: 60,
+        type: 'error',
+        text1: 'Please fill the form correctly',
+      });
+    }
+
+    const newImageUri = `file://${image.split('/').join('')}`;
+
+    let formData = new FormData();
+    formData.append('image', {
+      uri: newImageUri,
+      type: mime.getType(newImageUri),
+      name: newImageUri.split('/').pop(),
+    });
+    formData.append('brand', brand);
+    formData.append('price', price);
+    formData.append('isFeatured', isFeatured);
+    formData.append('description', description);
+    formData.append('category', category);
+    formData.append('richDescription', richDescription);
+    formData.append('name', name);
+    formData.append('countInStock', countInStock);
+    formData.append('rating', rating);
+    formData.append('numReviews', numReviews);
+
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    axios
+      .post(`${baseURL}products`, formData, config)
+      .then(res => {
+        if (res.status === 200 || res.status === 201) {
+          Toast.show({
+            topOffset: 60,
+            type: 'success',
+            text1: 'New product added',
+            text2: '',
+          });
+          setTimeout(() => {
+            navigation.navigate('Products');
+          }, 500);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        Toast.show({
+          topOffset: 60,
+          type: 'error',
+          text1: 'Something went wrong',
+          text2: 'Please try again',
+        });
+      });
   };
 
   return (
@@ -165,16 +244,15 @@ const ProductForm = () => {
       <DropdownContainer>
         <Picker
           selectedValue={category}
-          onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}
+          // onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}
         >
           {categories.map(item => (
             <Picker.Item key={item._id} label={item.name} value={item.name} />
           ))}
         </Picker>
       </DropdownContainer>
-      {error ? <Error message={error} /> : null}
       <ConfirmButtonContainer>
-        <ConfirmButton icon='plus-box' mode='contained' onPress={() => {}}>
+        <ConfirmButton icon='plus-box' mode='contained' onPress={addProduct}>
           Confirm
         </ConfirmButton>
       </ConfirmButtonContainer>
