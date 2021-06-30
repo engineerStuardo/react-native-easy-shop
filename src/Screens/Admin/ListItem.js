@@ -55,6 +55,7 @@ const ListItem = ({ item, index, deleteProduct }) => {
         modalVisible={modalVisible}
         deleteProduct={deleteProduct}
         id={id}
+        item={item}
       />
       <TouchableContainer
         windowWidth={windowWidth}

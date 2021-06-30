@@ -53,6 +53,7 @@ const ListItemModal = ({
   setModalVisible,
   id,
   deleteProduct,
+  item,
 }) => {
   const navigation = useNavigation();
 
@@ -75,7 +76,7 @@ const ListItemModal = ({
             color={'#FBFBFB'}
             icon='file-document-edit'
             onPress={() => {
-              navigation.navigate('ProductForm');
+              navigation.navigate('ProductForm', { item: item });
               setModalVisible(false);
             }}
           >

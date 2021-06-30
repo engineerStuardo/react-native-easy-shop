@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Platform } from 'react-native';
+import { View, TouchableOpacity, Platform } from 'react-native';
 import { FormContainer } from '../../Shared/Form/FormContainer';
 import { Input } from '../../Shared/Form/Input';
 import Toast from 'react-native-toast-message';
@@ -46,7 +46,7 @@ const ImageContainer = styled(View)`
   margin-bottom: 25px;
 `;
 
-const ProductForm = () => {
+const ProductForm = ({ route }) => {
   const [brand, setBrand] = useState('');
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
@@ -61,7 +61,7 @@ const ProductForm = () => {
   const [isFeatured, setIsFeatured] = useState(false);
   const [richDescription, setRichDescription] = useState('sdf');
   const [numReviews, setNumReviews] = useState(0);
-  const [item, setItem] = useState(null);
+  const [productItem, setProductItem] = useState();
   const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
@@ -97,10 +97,28 @@ const ProductForm = () => {
     }
   };
 
+  const checkIfUpdate = () => {
+    if (!route.params) {
+      setProductItem(null);
+    } else {
+      const { item } = route.params;
+      setProductItem(item);
+      setBrand(item.brand);
+      setName(item.name);
+      setPrice(item.price.toString());
+      setCountInStock(item.countInStock.toString());
+      setDescription(item.description);
+      setMainImage(item.image);
+      setImage(item.image);
+      setCategory(item.category);
+    }
+  };
+
   useEffect(() => {
     getToken();
     loadCategories();
     imagePickerPermissions();
+    checkIfUpdate();
   }, []);
 
   const pickImage = async () => {
@@ -117,8 +135,7 @@ const ProductForm = () => {
     }
   };
 
-  const addProduct = () => {
-    setLoading(true);
+  const validation = () => {
     if (
       image === '' ||
       name === '' ||
@@ -134,7 +151,7 @@ const ProductForm = () => {
         text1: 'Please fill the form correctly',
       });
       setLoading(false);
-      return;
+      return '';
     }
 
     if (countInStock > 255) {
@@ -145,11 +162,12 @@ const ProductForm = () => {
       });
       setLoading(false);
       setCountInStock('');
-      return;
+      return '';
     }
+  };
 
+  const addItem = newImageUri => {
     let formData = new FormData();
-    const newImageUri = 'file:///' + image.split('file:/').join('');
     formData.append('image', {
       uri: newImageUri,
       type: mime.getType(newImageUri),
@@ -195,10 +213,69 @@ const ProductForm = () => {
         Toast.show({
           topOffset: 60,
           type: 'error',
-          text1: 'Something went wrog',
+          text1: 'Something went wrong',
           text2: 'Please try again',
         });
       });
+  };
+
+  const editItem = newImageUri => {
+    const updateConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const updateObject = {
+      image: newImageUri,
+      name: name,
+      brand: brand,
+      price: price,
+      description: description,
+      category: category,
+      countInStock: countInStock,
+      richDescription: richDescription,
+      rating: rating,
+      numReviews: numReviews,
+      isFeatured: isFeatured,
+    };
+
+    axios
+      .put(`${baseURL}products/${productItem.id}`, updateObject, updateConfig)
+      .then(res => {
+        if (res.status === 200 || res.status === 201) {
+          Toast.show({
+            topOffset: 60,
+            type: 'success',
+            text1: 'Product successfully updated',
+            text2: '',
+          });
+          setTimeout(() => {
+            setLoading(false);
+            navigation.navigate('Products');
+          }, 500);
+        }
+      })
+      .catch(err => {
+        setLoading(false);
+        console.log(err);
+        Toast.show({
+          topOffset: 60,
+          type: 'error',
+          text1: 'Something went wrong',
+          text2: 'Please try again',
+        });
+      });
+  };
+
+  const confirmProduct = () => {
+    setLoading(true);
+    if (validation() === '') {
+      return;
+    }
+    const newImageUri = 'file:///' + image.split('file:/').join('');
+    productItem ? editItem(newImageUri) : addItem(newImageUri);
   };
 
   return (
@@ -278,7 +355,11 @@ const ProductForm = () => {
         </ConfirmButtonContainer>
       ) : (
         <ConfirmButtonContainer>
-          <ConfirmButton icon='plus-box' mode='contained' onPress={addProduct}>
+          <ConfirmButton
+            icon='calendar-check'
+            mode='contained'
+            onPress={confirmProduct}
+          >
             Confirm
           </ConfirmButton>
         </ConfirmButtonContainer>
