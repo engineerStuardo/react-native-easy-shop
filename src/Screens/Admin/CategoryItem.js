@@ -17,14 +17,14 @@ const CategoryContainer = styled(View)`
   elevation: 5;
 `;
 
-export const CategoryItem = ({ item }) => (
+export const CategoryItem = ({ item, deleteCategory }) => (
   <CategoryContainer>
     <Text>{item.name}</Text>
     <IconButton
       icon='delete-circle-outline'
       color={Colors.red500}
       size={30}
-      onPress={() => console.log('Pressed')}
+      onPress={() => deleteCategory(item._id)}
     />
   </CategoryContainer>
 );

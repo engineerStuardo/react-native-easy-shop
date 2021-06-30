@@ -82,6 +82,32 @@ const Categories = () => {
       });
   };
 
+  const deleteCategory = id => {
+    const config = { headers: { Authorization: `Bearer ${token}` } };
+    axios
+      .delete(`${baseURL}categories/${id}`, config)
+      .then(res => {
+        if (res.status === 200 || res.status === 201) {
+          getCategories();
+          Toast.show({
+            topOffset: 60,
+            type: 'success',
+            text1: 'Category deleted successfully',
+            text2: '',
+          });
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        Toast.show({
+          topOffset: 60,
+          type: 'error',
+          text1: 'Something went wrong',
+          text2: 'Please try again',
+        });
+      });
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
@@ -89,7 +115,11 @@ const Categories = () => {
           data={categories}
           renderItem={({ item, index }) =>
             item.name !== 'All' ? (
-              <CategoryItem key={item.id} item={item} />
+              <CategoryItem
+                key={item.id}
+                item={item}
+                deleteCategory={deleteCategory}
+              />
             ) : null
           }
           keyExtractor={item => item.id}
