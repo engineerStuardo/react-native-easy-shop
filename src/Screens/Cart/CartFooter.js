@@ -4,6 +4,7 @@ import { Button } from 'react-native-paper';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
+import { connect } from 'react-redux';
 
 const CartFooterContainer = styled(View)`
   flex-direction: row;
@@ -29,6 +30,7 @@ const CartFooter = ({
   singleProduct,
   addItemToCart,
   item,
+  user,
 }) => {
   const navigation = useNavigation();
 
@@ -65,7 +67,7 @@ const CartFooter = ({
           >
             Add
           </Button>
-        ) : (
+        ) : user.isAuthenticated ? (
           <Button
             style={{ backgroundColor: '#5cb85c' }}
             mode='contained'
@@ -73,10 +75,21 @@ const CartFooter = ({
           >
             Checkout
           </Button>
+        ) : (
+          <Button
+            icon='login'
+            style={{ backgroundColor: '#39c0ed' }}
+            mode='contained'
+            onPress={() => navigation.navigate('Login')}
+          >
+            Login
+          </Button>
         )}
       </ButtonsContainer>
     </CartFooterContainer>
   );
 };
 
-export default CartFooter;
+const mapStateToProps = ({ user }) => ({ user });
+
+export default connect(mapStateToProps)(CartFooter);

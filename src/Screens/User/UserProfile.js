@@ -77,7 +77,7 @@ const UserProfile = ({ navigation, logoutUser, user }) => {
       <LoginButtonContainer>
         <Button
           style={{ width: '80%', backgroundColor: 'orange' }}
-          icon='login'
+          icon='logout'
           mode='contained'
           onPress={() => logout()}
         >
