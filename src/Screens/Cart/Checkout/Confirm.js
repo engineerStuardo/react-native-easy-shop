@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView } from 'react-native';
-import { List, Avatar, Divider, Button } from 'react-native-paper';
+import { List, Avatar, Divider, Button, TextInput } from 'react-native-paper';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
+import Toast from 'react-native-toast-message';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { CartItem } from '../CartItem';
 import { clearCart } from '../../../Redux/cart/cartActions';
+import baseURL from '../../../../assets/common/baseUrl';
 
 const PlaceOrderButton = styled(Button)`
   border-radius: 20px;
@@ -14,13 +18,44 @@ const PlaceOrderButton = styled(Button)`
 `;
 
 const Confirm = ({ route, clearCart, navigation }) => {
+  const [token, setToken] = useState();
+
   const confirm = route.params;
 
+  useEffect(() => {
+    AsyncStorage.getItem('jwt').then(value => setToken(value));
+  }, []);
+
   const confirmOrder = () => {
-    setTimeout(() => {
-      clearCart();
-      navigation.navigate('Cart');
-    }, 500);
+    const order = confirm.order.order;
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+    axios
+      .post(`${baseURL}orders`, order, config)
+      .then(res => {
+        if (res.status === 200 || res.status === 201) {
+          Toast.show({
+            topOffset: 60,
+            type: 'success',
+            text1: 'Order Completed',
+            text2: '',
+          });
+          setTimeout(() => {
+            clearCart();
+            navigation.navigate('Cart');
+          }, 500);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        Toast.show({
+          topOffset: 60,
+          type: 'error',
+          text1: 'Something went wrong',
+          text2: 'Please try again',
+        });
+      });
   };
 
   return (
