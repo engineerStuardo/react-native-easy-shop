@@ -36,7 +36,7 @@ const ConfirmButton = styled(Button)`
   padding: 5px;
 `;
 
-const Checkout = ({ cartItems, navigation }) => {
+const Checkout = ({ cartItems, navigation, user }) => {
   const [orderItems, setOrderItems] = useState();
   const [address, setAddress] = useState();
   const [address2, setAddress2] = useState();
@@ -59,6 +59,7 @@ const Checkout = ({ cartItems, navigation }) => {
       shippingAddress: address,
       shippingAddress2: address2,
       zip,
+      user: user.user.userId,
     };
     navigation.navigate('Payment', { order });
   };
@@ -131,9 +132,10 @@ const Checkout = ({ cartItems, navigation }) => {
 };
 
 const mapStateToProps = state => {
-  const { cartItems } = state;
+  const { cartItems, user } = state;
   return {
     cartItems,
+    user,
   };
 };
 
