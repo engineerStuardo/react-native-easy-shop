@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import styled from 'styled-components/native';
 import { Button } from 'react-native-paper';
 import { connect } from 'react-redux';
@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { ActivityIndicator, Colors } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
+import { OrderCard } from '../Admin/OrderCard';
 
 import { logoutUser } from '../../Redux/user/userActions';
 import baseURL from '../../../assets/common/baseUrl';
@@ -22,6 +23,8 @@ const UserProfile = ({ navigation, logoutUser, user }) => {
   const [userProfile, setUserProfile] = useState('');
   const [userInfo, setUserInfo] = useState({});
   const [loading, setLoading] = useState(true);
+  const [token, setToken] = useState();
+  const [orders, setOrders] = useState();
 
   const logout = () => {
     AsyncStorage.removeItem('jwt').then(() => {
@@ -30,24 +33,45 @@ const UserProfile = ({ navigation, logoutUser, user }) => {
     });
   };
 
+  const getUserInfo = () => {
+    AsyncStorage.getItem('jwt').then(res => {
+      setToken(res);
+      setUserInfo(user.user.userId);
+      axios
+        .get(`${baseURL}users/id/${userInfo}/`, {
+          headers: { Authorization: `Bearer ${res}` },
+        })
+        .then(user => {
+          setUserProfile(user.data);
+          setLoading(false);
+        })
+        .catch(error => {
+          setLoading(false);
+          console.log(error);
+        });
+    });
+  };
+
+  const getOrders = () => {
+    axios
+      .get(`${baseURL}orders`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(orders => {
+        const data = orders.data;
+        const userOrders = data.filter(
+          order => order.user._id === user.user.userId
+        );
+        setOrders(userOrders);
+      })
+      .catch(err => console.log(err));
+  };
+
   useFocusEffect(
     useCallback(() => {
       setLoading(true);
-      AsyncStorage.getItem('jwt').then(res => {
-        setUserInfo(user.user.userId);
-        axios
-          .get(`${baseURL}users/id/${userInfo}/`, {
-            headers: { Authorization: `Bearer ${res}` },
-          })
-          .then(user => {
-            setUserProfile(user.data);
-            setLoading(false);
-          })
-          .catch(error => {
-            setLoading(false);
-            console.log(error);
-          });
-      });
+      getUserInfo();
+      getOrders();
     }, [userInfo])
   );
 
@@ -64,7 +88,7 @@ const UserProfile = ({ navigation, logoutUser, user }) => {
   }
 
   return (
-    <View>
+    <ScrollView>
       <View style={{ alignSelf: 'center', alignItems: 'center' }}>
         <Text style={{ fontSize: 30, marginTop: 30, marginBottom: 15 }}>
           {userProfile.name}
@@ -84,7 +108,17 @@ const UserProfile = ({ navigation, logoutUser, user }) => {
           Logout
         </Button>
       </LoginButtonContainer>
-    </View>
+      <View style={{ alignItems: 'center', marginTop: 45 }}>
+        <Text style={{ fontSize: 25 }}>My Orders</Text>
+        <View>
+          {orders ? (
+            orders.map(order => <OrderCard key={order.id} {...order} isUser />)
+          ) : (
+            <Text>You have no orders yet...</Text>
+          )}
+        </View>
+      </View>
+    </ScrollView>
   );
 };
 

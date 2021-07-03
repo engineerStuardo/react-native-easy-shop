@@ -24,6 +24,7 @@ export const OrderCard = ({
   phone,
   user,
   zip,
+  isUser,
 }) => {
   const [orderStatus, setOrderStatus] = useState();
   const [statusText, setStatusText] = useState();
@@ -171,33 +172,44 @@ export const OrderCard = ({
           <Text style={{ color: '#24bf6f' }}>$ {totalPrice}</Text>
         </View>
       </View>
-      <View
-        style={{
-          width: 150,
-          marginLeft: 25,
-          marginBottom: 25,
-          backgroundColor: '#f0f5ff',
-        }}
-      >
-        <Picker
-          selectedValue={statusChange}
-          onValueChange={(itemValue, itemIndex) => setStatusChange(itemValue)}
-        >
-          {codes.map(item => (
-            <Picker.Item key={item.code} label={item.name} value={item.name} />
-          ))}
-        </Picker>
-      </View>
-      <View style={{ margin: 15, width: 150, alignSelf: 'center' }}>
-        <Button
-          style={{ backgroundColor: '#73a2ff' }}
-          icon='update'
-          mode='contained'
-          onPress={updateOrder}
-        >
-          Update
-        </Button>
-      </View>
+
+      {!isUser && (
+        <>
+          <View
+            style={{
+              width: 150,
+              marginLeft: 25,
+              marginBottom: 25,
+              backgroundColor: '#f0f5ff',
+            }}
+          >
+            <Picker
+              selectedValue={statusChange}
+              onValueChange={(itemValue, itemIndex) =>
+                setStatusChange(itemValue)
+              }
+            >
+              {codes.map(item => (
+                <Picker.Item
+                  key={item.code}
+                  label={item.name}
+                  value={item.name}
+                />
+              ))}
+            </Picker>
+          </View>
+          <View style={{ margin: 15, width: 150, alignSelf: 'center' }}>
+            <Button
+              style={{ backgroundColor: '#73a2ff' }}
+              icon='update'
+              mode='contained'
+              onPress={updateOrder}
+            >
+              Update
+            </Button>
+          </View>
+        </>
+      )}
     </View>
   );
 };
