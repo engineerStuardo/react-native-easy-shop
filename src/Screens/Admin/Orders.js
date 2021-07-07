@@ -3,6 +3,7 @@ import { View, Text, FlatList } from 'react-native';
 import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Button, ActivityIndicator, Colors } from 'react-native-paper';
 
 import baseURL from '../../../assets/common/baseUrl';
 import { OrderCard } from './OrderCard';
@@ -46,9 +47,20 @@ const Orders = () => {
   }, [token]);
 
   return (
-    <View>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+      }}
+    >
       {loading ? (
-        <Text>Loading...</Text>
+        <View>
+          <ActivityIndicator
+            animating={true}
+            color={Colors.orange800}
+            size={50}
+          />
+        </View>
       ) : (
         <FlatList
           data={orderList}
